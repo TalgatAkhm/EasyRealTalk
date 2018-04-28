@@ -12,6 +12,7 @@ import com.leapmotion.leap.*;
 import com.leapmotion.leap.Gesture.State;
 
 class WorkerListener extends Listener {
+    private long timeStamp = -1;
     public void onInit(Controller controller) {
         System.out.println("Initialized");
     }
@@ -36,56 +37,33 @@ class WorkerListener extends Listener {
     public void onFrame(Controller controller) {
         // Get the most recent frame and report some basic information
         Frame frame = controller.frame();
-        System.out.println("Frame id: " + frame.id()
-                + ", timestamp: " + frame.timestamp()
-                + ", hands: " + frame.hands().count()
-                + ", fingers: " + frame.fingers().count()
-                + ", tools: " + frame.tools().count()
-                + ", gestures " + frame.gestures().count());
+        if (frame.timestamp() < timeStamp + Math.pow(10, 6)) {
+            return;
+        }
 
         //Get hands
         for(Hand hand : frame.hands()) {
             String handType = hand.isLeft() ? "Left hand" : "Right hand";
-            System.out.println("  " + handType + ", id: " + hand.id()
-                    + ", palm position: " + hand.palmPosition());
 
             // Get the hand's normal vector and direction
             Vector normal = hand.palmNormal();
             Vector direction = hand.direction();
 
-            // Calculate the hand's pitch, roll, and yaw angles
-            System.out.println("  pitch: " + Math.toDegrees(direction.pitch()) + " degrees, "
-                    + "roll: " + Math.toDegrees(normal.roll()) + " degrees, "
-                    + "yaw: " + Math.toDegrees(direction.yaw()) + " degrees");
-
             // Get arm bone
             Arm arm = hand.arm();
-            System.out.println("  Arm direction: " + arm.direction()
-                    + ", wrist position: " + arm.wristPosition()
-                    + ", elbow position: " + arm.elbowPosition());
 
             // Get fingers
             for (Finger finger : hand.fingers()) {
-                System.out.println("    " + finger.type() + ", id: " + finger.id()
-                        + ", length: " + finger.length()
-                        + "mm, width: " + finger.width() + "mm");
-
                 //Get Bones
                 for(Bone.Type boneType : Bone.Type.values()) {
                     Bone bone = finger.bone(boneType);
-                    System.out.println("      " + bone.type()
-                            + " bone, start: " + bone.prevJoint()
-                            + ", end: " + bone.nextJoint()
-                            + ", direction: " + bone.direction());
                 }
             }
         }
 
         // Get tools
         for(Tool tool : frame.tools()) {
-            System.out.println("  Tool id: " + tool.id()
-                    + ", position: " + tool.tipPosition()
-                    + ", direction: " + tool.direction());
+            System.out.println("TOOL");
         }
 
         GestureList gestures = frame.gestures();
@@ -94,6 +72,7 @@ class WorkerListener extends Listener {
 
             switch (gesture.type()) {
                 case TYPE_CIRCLE:
+                    boolean clockWise = false;
                     CircleGesture circle = new CircleGesture(gesture);
 
                     // Calculate clock direction using the angle between circle normal and pointable
@@ -101,6 +80,7 @@ class WorkerListener extends Listener {
                     if (circle.pointable().direction().angleTo(circle.normal()) <= Math.PI/2) {
                         // Clockwise if angle is less than 90 degrees
                         clockwiseness = "clockwise";
+                        clockWise = true;
                     } else {
                         clockwiseness = "counterclockwise";
                     }
@@ -110,36 +90,40 @@ class WorkerListener extends Listener {
                     if (circle.state() != State.STATE_START) {
                         CircleGesture previousUpdate = new CircleGesture(controller.frame(1).gesture(circle.id()));
                         sweptAngle = (circle.progress() - previousUpdate.progress()) * 2 * Math.PI;
+                        if (!clockWise) {
+                            System.out.println("Повторите, пожалуйста");
+                            timeStamp = frame.timestamp();
+                        }
                     }
 
-                    System.out.println("  Circle id: " + circle.id()
-                            + ", " + circle.state()
-                            + ", progress: " + circle.progress()
-                            + ", radius: " + circle.radius()
-                            + ", angle: " + Math.toDegrees(sweptAngle)
-                            + ", " + clockwiseness);
+//                    System.out.println("CIRCLE " + clockwiseness);
                     break;
                 case TYPE_SWIPE:
                     SwipeGesture swipe = new SwipeGesture(gesture);
-                    System.out.println("  Swipe id: " + swipe.id()
-                            + ", " + swipe.state()
-                            + ", position: " + swipe.position()
-                            + ", direction: " + swipe.direction()
-                            + ", speed: " + swipe.speed());
+                    float angle = swipe.direction().angleTo(Vector.xAxis());
+                    if (angle < Math.PI / 3 || angle > 2 * Math.PI / 3) {
+                        if (swipe.startPosition().getX() < swipe.position().getX()) {
+                            System.out.println("Правее");
+                        } else {
+                            System.out.println("Левее");
+                        }
+                    } else {
+                        if (swipe.startPosition().getY() < swipe.position().getY()) {
+                            System.out.println("Выше");
+                        } else {
+                            System.out.println("Ниже");
+                        }
+                    }
+
+                    timeStamp = frame.timestamp();
                     break;
                 case TYPE_SCREEN_TAP:
                     ScreenTapGesture screenTap = new ScreenTapGesture(gesture);
-                    System.out.println("  Screen Tap id: " + screenTap.id()
-                            + ", " + screenTap.state()
-                            + ", position: " + screenTap.position()
-                            + ", direction: " + screenTap.direction());
+                    System.out.println("SCREEN TAP");
                     break;
                 case TYPE_KEY_TAP:
                     KeyTapGesture keyTap = new KeyTapGesture(gesture);
-                    System.out.println("  Key Tap id: " + keyTap.id()
-                            + ", " + keyTap.state()
-                            + ", position: " + keyTap.position()
-                            + ", direction: " + keyTap.direction());
+                    System.out.println("KEY TAP");
                     break;
                 default:
                     System.out.println("Unknown gesture type.");
@@ -148,7 +132,7 @@ class WorkerListener extends Listener {
         }
 
         if (!frame.hands().isEmpty() || !gestures.isEmpty()) {
-            System.out.println();
+//            System.out.println();
         }
     }
 }
