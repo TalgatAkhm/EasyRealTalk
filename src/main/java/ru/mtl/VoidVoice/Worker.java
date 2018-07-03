@@ -1,3 +1,5 @@
+package ru.mtl.VoidVoice;
+
 import com.leapmotion.leap.Controller;
 
 import java.io.IOException;
