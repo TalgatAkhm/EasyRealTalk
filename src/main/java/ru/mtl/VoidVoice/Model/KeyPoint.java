@@ -1,6 +1,8 @@
 package ru.mtl.VoidVoice.Model;
 
+import javax.persistence.*;
 public class KeyPoint {
+
     private MotionVector baseVector;
 
     public KeyPoint(){

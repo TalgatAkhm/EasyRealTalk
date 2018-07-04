@@ -1,24 +1,24 @@
 package ru.mtl.VoidVoice.Model;
 
+import javax.persistence.*;
+
 //import com.sun.javafx.geom.Vec3d;
 @Entity
-@Table(name="HIBERNATE_HAND")
 public class Hand {
     @Id
-    @GeneratedValue (stategy=GenerationType.AUTO)
-    @Column(name="HAND_ID")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @Column(name = "PALM_NORMAL_VECTOR")
+    @Column
     private Vector3d palmNormalVector;
-    @Column(name = "PALM_DIRECTION_VECTOR")
+    @Column
     private Vector3d palmDirectionVector;
 
-    public Hand(){
+    public Hand() {
 
     }
 
-    public Hand(Vector3d palmNormalVector, Vector3d palmDirectionVector){
+    public Hand(Vector3d palmNormalVector, Vector3d palmDirectionVector) {
         this.palmNormalVector = palmNormalVector;
         this.palmDirectionVector = palmDirectionVector;
     }
@@ -38,4 +38,13 @@ public class Hand {
     public void setPalmDirectionVector(Vector3d palmDirectionVector) {
         this.palmDirectionVector = palmDirectionVector;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
 }

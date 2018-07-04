@@ -1,25 +1,25 @@
 package ru.mtl.VoidVoice.Model;
 
+import javax.persistence.*;
 
 @Entity
-@Table (name="HIBERNATE_VECTOR3D")
 public class Vector3d {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(name = "VECTOR_ID")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @Column(name="X")
+    @Column
     private double x;
-    @Column(name="Y")
+    @Column
     private double y;
-    @Column(name="Z")
+    @Column
     private double z;
 
-    public Vector3d(){
+    public Vector3d() {
 
     }
-    public Vector3d(double x, double y, double z){
+
+    public Vector3d(double x, double y, double z) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -50,13 +50,21 @@ public class Vector3d {
         this.z = z;
     }
 
-    public void setCoordinate(double x, double y, double z){
+    public void setCoordinate(double x, double y, double z) {
         this.x = x;
         this.y = y;
         this.z = z;
     }
 
-    public Vector3d getVecotr3d(){
-        return this;
+
+    public int getId() {
+        return id;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+
+
 }

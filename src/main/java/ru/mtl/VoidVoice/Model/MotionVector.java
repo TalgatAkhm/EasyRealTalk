@@ -1,14 +1,28 @@
 package ru.mtl.VoidVoice.Model;
 
 import java.util.List;
+import javax.persistence.*;
 
+@Entity
 public class MotionVector {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+    @Column
     private Hand rightHand;
+    @Column
     private Hand leftHand;
+
+    //TODO:
+    @Transient
     private List<List<FingerType>> touchList;
+    @OneToMany
     private List<Finger> leftFingersList;
+    @OneToMany
     private List<Finger> rightFingerList;
+    @Column
     private Motion leftHandMotion;
+    @Column
     private Motion rightHandMotion;
 
     public MotionVector(){
@@ -70,4 +84,13 @@ public class MotionVector {
     public void setRightFingerList(List<Finger> rightFingerList) {
         this.rightFingerList = rightFingerList;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
 }

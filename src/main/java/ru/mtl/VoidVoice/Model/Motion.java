@@ -1,15 +1,15 @@
 package ru.mtl.VoidVoice.Model;
 
+import javax.persistence.*;
 
 @Entity
-@Table(name="HIBERNATE_MOTION")
 public class Motion {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "MOTION_ID")
+    @Column
     private int id;
 
-    @Column(name="MOTION_TYPE")
+    @Column
     private MotionType motionType;
 
     public Motion() {
@@ -26,4 +26,12 @@ public class Motion {
     public MotionType getMotionType() {
         return motionType;
     }
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
 }

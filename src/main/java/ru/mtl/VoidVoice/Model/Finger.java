@@ -1,25 +1,23 @@
 package ru.mtl.VoidVoice.Model;
 
 import com.sun.javafx.geom.Vec3d;
-
+import javax.persistence.*;
 
 
 @Entity
-@Table(name="HIBERNATE_FINGER")
 public class Finger {
     @Id
-    @GeneratedValue (stategy = GenerationType.AUTO)
-    @Column (name="FINGER_ID")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @Clounm (name = "FINGER_TYPE")
+    @Column
     private FingerType fingerType;
-    @Column (name = "FINGER_DIRECTION_VECTOR")
-    private Vec3d fingerDirectionVector;
-    @Column (name = "FINGER_CURVATURE")
+    @Column
+    private Vector3d fingerDirectionVector;
+    @Column
     private double fingerCurvature;
 
-    public Finger(FingerType fingerType, Vec3d fingerDirectionVector, double fingerCurvature){
+    public Finger(FingerType fingerType, Vector3d fingerDirectionVector, double fingerCurvature){
         this.fingerType = fingerType;
         this.fingerDirectionVector = fingerDirectionVector;
         this.fingerCurvature = fingerCurvature;
@@ -29,11 +27,11 @@ public class Finger {
 
     }
 
-    public Vec3d getFingerDirectionVector() {
+    public Vector3d getFingerDirectionVector() {
         return fingerDirectionVector;
     }
 
-    public void setFingerDirectionVector(Vec3d fingerDirectionVector) {
+    public void setFingerDirectionVector(Vector3d fingerDirectionVector) {
         this.fingerDirectionVector = fingerDirectionVector;
     }
 
@@ -52,4 +50,13 @@ public class Finger {
     public void setFingerCurvature(double fingerCurvature) {
         this.fingerCurvature = fingerCurvature;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
 }
