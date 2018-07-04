@@ -32,7 +32,7 @@
                 <configuration>
                     <executable>java</executable>
                     <arguments>
-                        <argument>-Djava.library.path=${pom.basedir}/LeapDeveloperKit_2.3.1/LeapSDK/lib</argument>
+                        <argument>-Djava.library.path=${pom.basedir}\LeapDeveloperKit_2.3.1\LeapSDK\lib</argument>
                         <argument>-classpath</argument>
                         <classpath />
                         <argument>ru.mtl.VoidVoice.Worker</argument>
