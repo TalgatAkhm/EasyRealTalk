@@ -1,4 +1,4 @@
-package ru.mtl.VoidVoice.Model;
+package ru.mtl.VoidVoice.model;
 
 import java.util.List;
 import javax.persistence.*;

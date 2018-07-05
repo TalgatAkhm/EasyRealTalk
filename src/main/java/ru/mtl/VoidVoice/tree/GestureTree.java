@@ -1,6 +1,6 @@
 package ru.mtl.VoidVoice.tree;
 
-import ru.mtl.VoidVoice.Model.MotionVector;
+import ru.mtl.VoidVoice.model.MotionVector;
 
 import java.util.ArrayList;
 import java.util.List;
