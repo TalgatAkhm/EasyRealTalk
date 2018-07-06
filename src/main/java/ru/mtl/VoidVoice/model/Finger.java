@@ -1,6 +1,5 @@
-package ru.mtl.VoidVoice.Model;
+package ru.mtl.VoidVoice.model;
 
-import com.sun.javafx.geom.Vec3d;
 import net.sf.autodao.PersistentEntity;
 
 import javax.persistence.*;

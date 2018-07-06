@@ -7,6 +7,8 @@ package ru.mtl.VoidVoice; /*****************************************************
  \******************************************************************************/
 
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.lang.Math;
 import com.leapmotion.leap.*;
 import com.leapmotion.leap.Gesture.State;
@@ -54,6 +56,9 @@ class WorkerListener extends Listener {
 
             // Get fingers
             for (Finger finger : hand.fingers()) {
+                if(finger.type().name().equals("TYPE_PINKY")) {
+                    System.out.println("FINGER TYPE: " +finger.type() + "      " + finger.direction().getX() + "      " + finger.direction().getY() + "      " + finger.direction().getZ());
+                }
                 //Get Bones
                 for(Bone.Type boneType : Bone.Type.values()) {
                     Bone bone = finger.bone(boneType);
@@ -93,6 +98,9 @@ class WorkerListener extends Listener {
                         if (!clockWise) {
                             System.out.println("Повторите, пожалуйста");
                             timeStamp = frame.timestamp();
+
+                            PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+                            out.println("some-utf8-string");
                         }
                     }
 
@@ -107,6 +115,8 @@ class WorkerListener extends Listener {
                         } else {
                             System.out.println("Левее");
                         }
+                        PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+                        out.println("some-utf8-string");
                     } else {
                         if (swipe.startPosition().getY() < swipe.position().getY()) {
                             System.out.println("Выше");
