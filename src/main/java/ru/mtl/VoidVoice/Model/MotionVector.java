@@ -1,13 +1,15 @@
 package ru.mtl.VoidVoice.Model;
 
+import net.sf.autodao.PersistentEntity;
+
 import java.util.List;
 import javax.persistence.*;
 
 @Entity
-public class MotionVector {
+public class MotionVector implements PersistentEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private long id;
     @Column
     private Hand rightHand;
     @Column
@@ -24,6 +26,10 @@ public class MotionVector {
     private Motion leftHandMotion;
     @Column
     private Motion rightHandMotion;
+
+    public Long getPrimaryKey(){
+        return this.id;
+    }
 
     public MotionVector(){
 
@@ -85,7 +91,7 @@ public class MotionVector {
         this.rightFingerList = rightFingerList;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

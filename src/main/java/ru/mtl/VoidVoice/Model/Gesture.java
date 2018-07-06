@@ -1,17 +1,30 @@
 package ru.mtl.VoidVoice.Model;
 
+import net.sf.autodao.PersistentEntity;
+
 import javax.persistence.*;
 import java.util.List;
 @Entity
-public class Gesture {
+public class Gesture implements PersistentEntity<Long> {
     @Id
     @GeneratedValue (strategy = GenerationType.AUTO)
-    private int id;
+    private long id;
 
     @OneToMany
     private List<MotionVector> keyPointList;
 
-    public int getId() {
+    @Column
+    private String meaning;
+
+    public Gesture(){
+
+    }
+
+    public Long getPrimaryKey(){
+        return this.id;
+    }
+
+    public long getId() {
         return id;
     }
 
@@ -25,5 +38,13 @@ public class Gesture {
 
     public void setKeyPointList(List<MotionVector> keyPointList) {
         this.keyPointList = keyPointList;
+    }
+
+    public String getMeaning() {
+        return meaning;
+    }
+
+    public void setMeaning(String meaning) {
+        this.meaning = meaning;
     }
 }

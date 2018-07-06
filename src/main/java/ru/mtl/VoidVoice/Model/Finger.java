@@ -1,14 +1,16 @@
 package ru.mtl.VoidVoice.Model;
 
 import com.sun.javafx.geom.Vec3d;
+import net.sf.autodao.PersistentEntity;
+
 import javax.persistence.*;
 
 
 @Entity
-public class Finger {
+public class Finger implements PersistentEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private long id;
 
     @Column
     private FingerType fingerType;
@@ -25,6 +27,11 @@ public class Finger {
 
     public Finger(){
 
+    }
+
+
+    public Long getPrimaryKey(){
+        return this.id;
     }
 
     public Vector3d getFingerDirectionVector() {
@@ -51,7 +58,7 @@ public class Finger {
         this.fingerCurvature = fingerCurvature;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

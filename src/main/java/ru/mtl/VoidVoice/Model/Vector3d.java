@@ -1,12 +1,14 @@
 package ru.mtl.VoidVoice.Model;
 
+import net.sf.autodao.PersistentEntity;
+
 import javax.persistence.*;
 
 @Entity
-public class Vector3d {
+public class Vector3d implements PersistentEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private long id;
 
     @Column
     private double x;
@@ -17,6 +19,11 @@ public class Vector3d {
 
     public Vector3d() {
 
+    }
+
+
+    public Long getPrimaryKey(){
+        return this.id;
     }
 
     public Vector3d(double x, double y, double z) {
@@ -57,7 +64,7 @@ public class Vector3d {
     }
 
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

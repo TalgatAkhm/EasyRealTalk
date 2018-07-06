@@ -1,13 +1,15 @@
 package ru.mtl.VoidVoice.Model;
 
+import net.sf.autodao.PersistentEntity;
+
 import javax.persistence.*;
 
 //import com.sun.javafx.geom.Vec3d;
 @Entity
-public class Hand {
+public class Hand implements PersistentEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private long id;
 
     @Column
     private Vector3d palmNormalVector;
@@ -16,6 +18,11 @@ public class Hand {
 
     public Hand() {
 
+    }
+
+
+    public Long getPrimaryKey(){
+        return this.id;
     }
 
     public Hand(Vector3d palmNormalVector, Vector3d palmDirectionVector) {
@@ -39,7 +46,7 @@ public class Hand {
         this.palmDirectionVector = palmDirectionVector;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

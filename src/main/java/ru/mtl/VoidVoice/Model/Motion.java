@@ -1,18 +1,24 @@
 package ru.mtl.VoidVoice.Model;
 
+import net.sf.autodao.PersistentEntity;
+
 import javax.persistence.*;
 
 @Entity
-public class Motion {
+public class Motion implements PersistentEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
-    private int id;
+    private long id;
 
     @Column
     private MotionType motionType;
 
     public Motion() {
+    }
+
+    public Long getPrimaryKey(){
+        return this.id;
     }
 
     public Motion(MotionType motionType){
@@ -26,7 +32,7 @@ public class Motion {
     public MotionType getMotionType() {
         return motionType;
     }
-    public int getId() {
+    public long getId() {
         return id;
     }
 
