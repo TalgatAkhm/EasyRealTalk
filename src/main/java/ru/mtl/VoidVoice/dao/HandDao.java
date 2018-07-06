@@ -1,7 +1,8 @@
-package ru.mtl.VoidVoice.model;
+package ru.mtl.VoidVoice.dao;
 
 import net.sf.autodao.Finder;
 import net.sf.autodao.Dao;
+import ru.mtl.VoidVoice.model.Hand;
 
 import java.util.List;
 

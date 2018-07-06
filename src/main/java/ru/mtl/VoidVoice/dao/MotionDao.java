@@ -1,7 +1,9 @@
-package ru.mtl.VoidVoice.model;
+package ru.mtl.VoidVoice.dao;
 
 import net.sf.autodao.Dao;
 import net.sf.autodao.Finder;
+import ru.mtl.VoidVoice.model.Gesture;
+import ru.mtl.VoidVoice.model.Motion;
 
 import java.util.List;
 
