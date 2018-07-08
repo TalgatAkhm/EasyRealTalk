@@ -10,11 +10,10 @@ public class Vector3d implements PersistentEntity<Long> {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column
     private double x;
-    @Column
+
     private double y;
-    @Column
+
     private double z;
 
     public Vector3d() {

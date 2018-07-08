@@ -4,6 +4,7 @@ import net.sf.autodao.PersistentEntity;
 
 import javax.persistence.*;
 import java.util.List;
+
 @Entity
 public class Gesture implements PersistentEntity<Long> {
     @Id

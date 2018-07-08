@@ -2,7 +2,13 @@ package ru.mtl.VoidVoice.model;
 
 import net.sf.autodao.PersistentEntity;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 
 @Entity
@@ -11,11 +17,12 @@ public class Finger implements PersistentEntity<Long> {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column
+    @Enumerated(EnumType.STRING)
     private FingerType fingerType;
-    @Column
+
+    @OneToOne
     private Vector3d fingerDirectionVector;
-    @Column
+
     private double fingerCurvature;
 
     public Finger(FingerType fingerType, Vector3d fingerDirectionVector, double fingerCurvature){

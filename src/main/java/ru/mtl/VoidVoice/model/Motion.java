@@ -11,7 +11,7 @@ public class Motion implements PersistentEntity<Long> {
     @Column
     private long id;
 
-    @Column
+    @Enumerated(EnumType.STRING)
     private MotionType motionType;
 
     public Motion() {

@@ -269,7 +269,7 @@
                                 <argument>-Djava.library.path=${pom.basedir}/LeapDeveloperKit_2.3.1/LeapSDK/lib</argument>
                                 <argument>-classpath</argument>
                                 <classpath />
-                                <argument>ru.mtl.VoidVoice.worker.Worker</argument>
+                                <argument>ru.mtl.VoidVoice.MainApplication</argument>
                             </arguments>
                         </configuration>
                     </plugin>
@@ -296,7 +296,7 @@
                                 <argument>-Djava.library.path=${pom.basedir}/LeapDeveloperKit_2.3.1/LeapSDK/lib</argument>
                                 <argument>-classpath</argument>
                                 <classpath />
-                                <argument>ru.mtl.VoidVoice.worker.Worker</argument>
+                                <argument>ru.mtl.VoidVoice.MainApplication</argument>
                             </arguments>
                         </configuration>
                     </plugin>
