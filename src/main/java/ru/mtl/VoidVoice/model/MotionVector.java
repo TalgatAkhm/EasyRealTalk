@@ -17,7 +17,7 @@ public class MotionVector implements PersistentEntity<Long> {
 
     //TODO:
     @Transient
-    private List<List<FingerType>> touchList;
+    private List<List<Integer>> touchList;
     @OneToMany
     private List<Finger> leftFingersList;
     @OneToMany
@@ -51,11 +51,11 @@ public class MotionVector implements PersistentEntity<Long> {
         this.leftHand = leftHand;
     }
 
-    public List<List<FingerType>> getTouchList() {
+    public List<List<Integer>> getTouchList() {
         return touchList;
     }
 
-    public void setTouchList(List<List<FingerType>> touchList) {
+    public void setTouchList(List<List<Integer>> touchList) {
         this.touchList = touchList;
     }
 
