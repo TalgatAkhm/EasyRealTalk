@@ -1,6 +1,7 @@
 package ru.mtl.VoidVoice.tree;
 
-import ru.mtl.VoidVoice.model.MotionVector;
+import ru.mtl.VoidVoice.model.Motion;
+import ru.mtl.VoidVoice.model.ValuableObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +12,8 @@ final public class GestureTree {
     public static void generate() {
     }
 
-    public static List<MotionVector> getKeyPointsByIndex(int index) {
-        List<MotionVector> keyPointList = null;
+    public static List<ValuableObject> getKeyPointsByIndex(int index) {
+        List<ValuableObject> keyPointList = null;
         if (index < tree.size()) {
             keyPointList = new ArrayList<>();
 

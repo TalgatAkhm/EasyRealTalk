@@ -26,6 +26,7 @@ public class Finger implements PersistentEntity<Long> {
 
     private float fingerCurvature;
 
+    @OneToOne
     private Point3d fingerTipPosition;
 
     public Finger(){

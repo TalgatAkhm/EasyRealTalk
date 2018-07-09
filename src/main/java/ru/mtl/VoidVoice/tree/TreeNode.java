@@ -1,15 +1,16 @@
 package ru.mtl.VoidVoice.tree;
 
 import ru.mtl.VoidVoice.model.MotionVector;
+import ru.mtl.VoidVoice.model.ValuableObject;
 
 import java.util.List;
 
 public class TreeNode {
     private TreeNode parent;
     private List<TreeNode> treeNodeList;
-    private MotionVector keyPoint;
+    private ValuableObject keyPoint;
 
-    public TreeNode(TreeNode parent, List<TreeNode> treeNodeList, MotionVector keyPoint) {
+    public TreeNode(TreeNode parent, List<TreeNode> treeNodeList, ValuableObject keyPoint) {
         this.parent = parent;
         this.treeNodeList = treeNodeList;
         this.keyPoint = keyPoint;
@@ -19,7 +20,7 @@ public class TreeNode {
         return parent;
     }
 
-    MotionVector getKeyPoint() {
+    ValuableObject getKeyPoint() {
         return keyPoint;
     }
 

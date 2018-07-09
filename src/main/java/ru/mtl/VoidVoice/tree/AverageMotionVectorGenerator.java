@@ -1,10 +1,9 @@
 package ru.mtl.VoidVoice.tree;
 
 import com.leapmotion.leap.*;
-import ru.mtl.VoidVoice.model.FingerType;
-import ru.mtl.VoidVoice.model.MotionVector;
-import ru.mtl.VoidVoice.model.Point3d;
-import ru.mtl.VoidVoice.model.Vector3d;
+import com.leapmotion.leap.Finger;
+import com.leapmotion.leap.Hand;
+import ru.mtl.VoidVoice.model.*;
 import ru.mtl.VoidVoice.worker.Presenter;
 
 import java.util.ArrayList;
@@ -104,7 +103,7 @@ public class AverageMotionVectorGenerator {
         if(frames_number == AVERAGE_FRAME_NUMBER){
             frames_number = 0;
             resMotionVector = generate();
-            presenter.motionVectorHandler(resMotionVector);
+            presenter.motionVectorHandler((ValuableObject) resMotionVector);
         }
     }
 
