@@ -3,12 +3,19 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:dao="http://autodao.sourceforge.net/schemas/autodao-0.12"
        xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://autodao.sourceforge.net/schemas/autodao-0.12  http://autodao.sourceforge.net/schemas/autodao-0.12.xsd
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <dao:hibernateScan base-package="ru.mtl.VoidVoice.dao"/>
+
+    <context:annotation-config/>
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
@@ -47,20 +54,21 @@
         </property>
     </bean>
 
-    <tx:annotation-driven transaction-manager="transactionManager"/>
-
-    <!--<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">-->
-        <!--<property name="dataSource" ref="dataSource"/>-->
-    <!--</bean>-->
-    <!--<bean id="worker" class="ru.mtl.VoidVoice.Worker" />-->
-
-    <bean id="customInterceptor" class="ru.mtl.VoidVoice.CustomInterceptor"/>
-
     <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory" />
-        <property name="entityInterceptor" ref="customInterceptor" />
     </bean>
 
-    <bean id="injectionTest" class="ru.mtl.VoidVoice.InjectionTest" />
+    <tx:annotation-driven/>
+
+    <tx:advice id = "txAdvice">
+        <tx:attributes>
+            <tx:method name="*" />
+        </tx:attributes>
+    </tx:advice>
+
+    <aop:config>
+        <aop:pointcut id="daoPointCut" expression="execution (* ru.mtl.VoidVoice.dao.*.*(..))" />
+        <aop:advisor advice-ref = "txAdvice" pointcut-ref = "daoPointCut"/>
+    </aop:config>
 
 </beans>

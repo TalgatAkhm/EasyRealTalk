@@ -10,21 +10,27 @@ public class MotionVector implements PersistentEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    @Column
+
+    @OneToOne
     private Hand rightHand;
-    @Column
+
+    @OneToOne
     private Hand leftHand;
 
     //TODO:
     @Transient
     private List<List<Integer>> touchList;
+
     @OneToMany
     private List<Finger> leftFingersList;
+
     @OneToMany
     private List<Finger> rightFingerList;
-    @Column
+
+    @OneToOne
     private Motion leftHandMotion;
-    @Column
+
+    @OneToOne
     private Motion rightHandMotion;
 
     public Long getPrimaryKey(){

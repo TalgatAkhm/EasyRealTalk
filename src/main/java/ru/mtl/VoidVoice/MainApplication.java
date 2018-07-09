@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.transaction.annotation.Transactional;
+import ru.mtl.VoidVoice.worker.Worker;
 
 public class MainApplication {
     private final static Logger LOG = LoggerFactory.getLogger(MainApplication.class);
@@ -22,14 +22,13 @@ public class MainApplication {
         LOG.debug("Creating MainApplication");
         ourInstance = new MainApplication();
 
-//        new Worker().run();
+        new Worker().run();
     }
 
     public static MainApplication getInstance() {
         return ourInstance;
     }
 
-    @Transactional
     public ApplicationContext getSpringContext() {
         return applicationContext;
     }

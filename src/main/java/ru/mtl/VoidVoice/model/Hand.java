@@ -1,32 +1,34 @@
 package ru.mtl.VoidVoice.model;
 
-import com.leapmotion.leap.Vector;
 import net.sf.autodao.PersistentEntity;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
-//import com.sun.javafx.geom.Vec3d;
 @Entity
 public class Hand implements PersistentEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column
+    @OneToOne
     private Vector3d palmNormalVector;
-    @Column
+
+    @OneToOne
     private Vector3d palmDirectionVector;
-    @Column
+
+    @OneToOne
     private Vector3d palmVelocity;
 
-    @Column
     private float confidence;
 
 
     public Hand() {
 
     }
-
 
     public Long getPrimaryKey(){
         return this.id;

@@ -18,8 +18,6 @@
 
     <logger name="com.googlecode.flyway" level="DEBUG"/>
 
-
-
     <!--<logger name="org.hibernate" level="DEBUG"/>-->
     <!--<logger name="org.hibernate.SQL" level="DEBUG"/>-->
 

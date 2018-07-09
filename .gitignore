@@ -136,3 +136,7 @@ hs_err_pid*
 src/test/
 target
 /.idea
+!/src/main/resources/datasource.properties
+/src/main/resources/hibernate.properties
+/src/main/resources/datasource.properties
+/src/main/resources/logback.xml

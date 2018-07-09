@@ -14,7 +14,6 @@ public class Gesture implements PersistentEntity<Long> {
     @OneToMany
     private List<MotionVector> keyPointList;
 
-    @Column
     private String meaning;
 
     public Gesture(){
