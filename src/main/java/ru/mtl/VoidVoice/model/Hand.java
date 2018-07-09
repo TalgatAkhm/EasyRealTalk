@@ -13,11 +13,11 @@ public class Hand implements PersistentEntity<Long> {
     private long id;
 
     @Column
-    private Vector palmNormalVector;
+    private Vector3d palmNormalVector;
     @Column
-    private Vector palmDirectionVector;
+    private Vector3d palmDirectionVector;
     @Column
-    private Vector palmVelocity;
+    private Vector3d palmVelocity;
 
     @Column
     private float confidence;
@@ -32,24 +32,24 @@ public class Hand implements PersistentEntity<Long> {
         return this.id;
     }
 
-    public Hand(Vector palmNormalVector, Vector palmDirectionVector) {
+    public Hand(Vector3d palmNormalVector, Vector3d palmDirectionVector) {
         this.palmNormalVector = palmNormalVector;
         this.palmDirectionVector = palmDirectionVector;
     }
 
-    public Vector getPalmNormalVector() {
+    public Vector3d getPalmNormalVector() {
         return palmNormalVector;
     }
 
-    public void setPalmNormalVector(Vector palmNormalVector) {
+    public void setPalmNormalVector(Vector3d palmNormalVector) {
         this.palmNormalVector = palmNormalVector;
     }
 
-    public Vector getPalmDirectionVector() {
+    public Vector3d getPalmDirectionVector() {
         return palmDirectionVector;
     }
 
-    public void setPalmDirectionVector(Vector palmDirectionVector) {
+    public void setPalmDirectionVector(Vector3d palmDirectionVector) {
         this.palmDirectionVector = palmDirectionVector;
     }
 
@@ -69,11 +69,11 @@ public class Hand implements PersistentEntity<Long> {
         this.confidence = confidence;
     }
 
-    public Vector getPalmVelocity() {
+    public Vector3d getPalmVelocity() {
         return palmVelocity;
     }
 
-    public void setPalmVelocity(Vector palmVelocity) {
+    public void setPalmVelocity(Vector3d palmVelocity) {
         this.palmVelocity = palmVelocity;
     }
 }

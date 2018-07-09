@@ -1,5 +1,6 @@
 package ru.mtl.VoidVoice.model;
 
+import com.leapmotion.leap.Vector;
 import net.sf.autodao.PersistentEntity;
 
 import javax.persistence.*;
@@ -10,53 +11,58 @@ public class Vector3d implements PersistentEntity<Long> {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    private double x;
+    private float x;
 
-    private double y;
+    private float y;
 
-    private double z;
+    private float z;
 
     public Vector3d() {
 
     }
 
-
     public Long getPrimaryKey(){
         return this.id;
     }
 
-    public Vector3d(double x, double y, double z) {
+    public Vector3d(float x, float y, float z) {
         this.x = x;
         this.y = y;
         this.z = z;
     }
 
+    public Vector3d(Vector ext){
+        x = ext.getX();
+        y = ext.getY();
+        z = ext.getZ();
+    }
 
-    public double getX() {
+
+    public float getX() {
         return x;
     }
 
-    public void setX(double x) {
+    public void setX(float x) {
         this.x = x;
     }
 
-    public double getY() {
+    public float getY() {
         return y;
     }
 
-    public void setY(double y) {
+    public void setY(float y) {
         this.y = y;
     }
 
-    public double getZ() {
+    public float getZ() {
         return z;
     }
 
-    public void setZ(double z) {
+    public void setZ(float z) {
         this.z = z;
     }
 
-    public void setCoordinate(double x, double y, double z) {
+    public void setCoordinate(float x, float y, float z) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -71,6 +77,20 @@ public class Vector3d implements PersistentEntity<Long> {
         this.id = id;
     }
 
+    public float scalarProduct(Vector3d second){
+        return scalarProduct(this, second);
+    }
 
+    public static float scalarProduct(Vector3d first, Vector3d second){
+        return (first.x * second.x + first.y * second.y + first.z * second.z);
+    }
+
+    public static float module(Vector3d v){
+        return scalarProduct(v, v);
+    }
+
+    public float module(){
+        return module(this);
+    }
 
 }

@@ -1,14 +1,25 @@
 package ru.mtl.VoidVoice.tree;
 
 import com.leapmotion.leap.*;
+import ru.mtl.VoidVoice.model.FingerType;
 import ru.mtl.VoidVoice.model.MotionVector;
+import ru.mtl.VoidVoice.model.Point3d;
+import ru.mtl.VoidVoice.model.Vector3d;
+import ru.mtl.VoidVoice.worker.Presenter;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AverageMotionVectorGenerator {
-    private Frame frame;
+
+    final static int AVERAGE_FRAME_NUMBER = 10;
+    private static int frames_number = 0;
+    private List<Frame> frames;
+
+    public MotionVector resMotionVector;
+
+    private Presenter presenter;
+
     private Vector leftPalmNormal;
     private Vector rightPalmNormal;
     private Vector leftHandDirection;
@@ -44,6 +55,13 @@ public class AverageMotionVectorGenerator {
     private Vector rightIndexPos;
     private Vector rightThumbPos;
 
+    private void initNumbers(){
+        frames_number = 0;
+        leftHandsNumber = 0;
+        rightHandsNumber = 0;
+        leftConfidence = 0;
+        rightConfidence = 0;
+    }
 
     private void initVectors() {
         leftPalmNormal = new Vector(0, 0, 0);
@@ -80,59 +98,72 @@ public class AverageMotionVectorGenerator {
         rightThumbPos = new Vector(0, 0, 0);
     }
 
-    public AverageMotionVectorGenerator() {
-        initVectors();
+    public void addFrame(Frame frame) {
+        frames.add(frame);
+        ++frames_number;
+        if(frames_number == AVERAGE_FRAME_NUMBER){
+            frames_number = 0;
+            resMotionVector = generate();
+            presenter.motionVectorHandler(resMotionVector);
+        }
     }
 
-    public AverageMotionVectorGenerator(Frame frame) {
-        this.frame = frame;
+    public AverageMotionVectorGenerator(Presenter presenter) {
+        frames = new ArrayList<>();
+        initNumbers();
         initVectors();
+        this.presenter = presenter;
     }
+
 
     public MotionVector generate() {
         //Get hands
-        for (Hand hand : frame.hands()) {
-            if (!hand.equals(Hand.invalid())) {
-                String handType = hand.isLeft() ? "Left hand" : "Right hand";
-                if (handType.equals("Left hand")) {
-                    ++leftHandsNumber;
-                    leftPalmNormal = coordinateSummer(leftPalmNormal, hand.palmNormal());
-                    leftHandDirection = coordinateSummer(leftHandDirection, hand.direction());
-                    leftConfidence += hand.confidence();
-                    leftHandVelocity = coordinateSummer(leftHandVelocity, hand.palmVelocity());
-                    plusLeftFingers(hand);
-                } else {
-                    ++rightHandsNumber;
-                    rightPalmNormal = coordinateSummer(rightPalmNormal, hand.palmNormal());
-                    rightHandDirection = coordinateSummer(rightHandDirection, hand.direction());
-                    rightConfidence += hand.confidence();
-                    rightHandVelocity = coordinateSummer(rightHandVelocity, hand.palmVelocity());
-                    plusRightFingers(hand);
+        for (Frame frame : frames) {
+            for (Hand hand : frame.hands()) {
+                if (!hand.equals(Hand.invalid())) {
+                    if (hand.isLeft()) {
+                        ++leftHandsNumber;
+                        leftPalmNormal = coordinateSummer(leftPalmNormal, hand.palmNormal());
+                        leftHandDirection = coordinateSummer(leftHandDirection, hand.direction());
+                        leftConfidence += hand.confidence();
+                        leftHandVelocity = coordinateSummer(leftHandVelocity, hand.palmVelocity());
+                        plusLeftFingers(hand);
+                    } else if (hand.isRight()) {
+                        ++rightHandsNumber;
+                        rightPalmNormal = coordinateSummer(rightPalmNormal, hand.palmNormal());
+                        rightHandDirection = coordinateSummer(rightHandDirection, hand.direction());
+                        rightConfidence += hand.confidence();
+                        rightHandVelocity = coordinateSummer(rightHandVelocity, hand.palmVelocity());
+                        plusRightFingers(hand);
+                    }
                 }
             }
         }
         averageHands();
-        MotionVector average = new MotionVector();
-        return average;
+        return setAverageMotionVector();
+    }
+
+    public MotionVector getResMotionVector() {
+        return resMotionVector;
     }
 
     /*///////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-    private MotionVector setAverageMotionVector(){
+    private MotionVector setAverageMotionVector() {
         MotionVector res = new MotionVector();
 
         ru.mtl.VoidVoice.model.Hand leftHand = new ru.mtl.VoidVoice.model.Hand();
         ru.mtl.VoidVoice.model.Hand rightHand = new ru.mtl.VoidVoice.model.Hand();
 
         leftHand.setConfidence(leftConfidence);
-        leftHand.setPalmDirectionVector(leftHandDirection);
-        leftHand.setPalmNormalVector(leftPalmNormal);
-        leftHand.setPalmVelocity(leftHandVelocity);
+        leftHand.setPalmDirectionVector(new Vector3d(leftHandDirection));
+        leftHand.setPalmNormalVector(new Vector3d(leftPalmNormal));
+        leftHand.setPalmVelocity(new Vector3d(leftHandVelocity));
 
         rightHand.setConfidence(rightConfidence);
-        rightHand.setPalmDirectionVector(rightHandDirection);
-        rightHand.setPalmNormalVector(rightPalmNormal);
-        rightHand.setPalmVelocity(rightHandVelocity);
+        rightHand.setPalmDirectionVector(new Vector3d(rightHandDirection));
+        rightHand.setPalmNormalVector(new Vector3d(rightPalmNormal));
+        rightHand.setPalmVelocity(new Vector3d(rightHandVelocity));
 
         res.setLeftHand(leftHand);
         res.setRightHand(rightHand);
@@ -143,13 +174,104 @@ public class AverageMotionVectorGenerator {
         touch.add(leftMiddlePos);
         touch.add(leftIndexPos);
         touch.add(leftThumbPos);
+
+        touch.add(rightPinkyPos);
+        touch.add(rightRingPos);
+        touch.add(rightMiddlePos);
+        touch.add(rightIndexPos);
+        touch.add(rightThumbPos);
         TouchChecker checker = new TouchChecker(touch);
         res.setTouchList(checker.check());
 
+        res.setLeftFingersList(generateLeftFingerList());
+        res.setRightFingerList(generateRightFingerList());
+
+        res.setLeftHandMotion(null);
+        res.setRightHandMotion(null);
+        return res;
+    }
+
+    private List<ru.mtl.VoidVoice.model.Finger> generateLeftFingerList() {
+        List<ru.mtl.VoidVoice.model.Finger> res = new ArrayList<>();
+        ru.mtl.VoidVoice.model.Finger tmp = new ru.mtl.VoidVoice.model.Finger();
+
+        tmp.setFingerType(FingerType.Thumb);
+        tmp.setFingerDirectionVector(new Vector3d(leftThumbDir));
+        tmp.setCurvature(leftPalmNormal, leftThumbDir);
+        tmp.setFingerTipPosition(new Point3d(leftThumbPos));
+        res.add(tmp);
+
+        tmp = new ru.mtl.VoidVoice.model.Finger();
+        tmp.setFingerType(FingerType.Index);
+        tmp.setFingerDirectionVector(new Vector3d(leftIndexDir));
+        tmp.setCurvature(leftPalmNormal, leftIndexDir);
+        tmp.setFingerTipPosition(new Point3d(leftIndexPos));
+        res.add(tmp);
+
+        tmp = new ru.mtl.VoidVoice.model.Finger();
+        tmp.setFingerType(FingerType.Middle);
+        tmp.setFingerDirectionVector(new Vector3d(leftMiddleDir));
+        tmp.setCurvature(leftPalmNormal, leftMiddleDir);
+        tmp.setFingerTipPosition(new Point3d(leftMiddlePos));
+        res.add(tmp);
+
+        tmp = new ru.mtl.VoidVoice.model.Finger();
+        tmp.setFingerType(FingerType.Ring);
+        tmp.setFingerDirectionVector(new Vector3d(leftRingDir));
+        tmp.setCurvature(leftPalmNormal, leftRingDir);
+        tmp.setFingerTipPosition(new Point3d(leftMiddlePos));
+        res.add(tmp);
+
+        tmp = new ru.mtl.VoidVoice.model.Finger();
+        tmp.setFingerType(FingerType.Pinky);
+        tmp.setFingerDirectionVector(new Vector3d(leftPinkyDir));
+        tmp.setCurvature(leftPalmNormal, leftPinkyDir);
+        tmp.setFingerTipPosition(new Point3d(leftPinkyPos));
+        res.add(tmp);
 
         return res;
     }
 
+    private List<ru.mtl.VoidVoice.model.Finger> generateRightFingerList() {
+        List<ru.mtl.VoidVoice.model.Finger> res = new ArrayList<>();
+        ru.mtl.VoidVoice.model.Finger tmp = new ru.mtl.VoidVoice.model.Finger();
+
+        tmp.setFingerType(FingerType.Thumb);
+        tmp.setFingerDirectionVector(new Vector3d(rightThumbDir));
+        tmp.setCurvature(rightPalmNormal, rightThumbDir);
+        tmp.setFingerTipPosition(new Point3d(rightThumbPos));
+        res.add(tmp);
+
+        tmp = new ru.mtl.VoidVoice.model.Finger();
+        tmp.setFingerType(FingerType.Index);
+        tmp.setFingerDirectionVector(new Vector3d(rightIndexDir));
+        tmp.setCurvature(rightPalmNormal, rightIndexDir);
+        tmp.setFingerTipPosition(new Point3d(rightIndexPos));
+        res.add(tmp);
+
+        tmp = new ru.mtl.VoidVoice.model.Finger();
+        tmp.setFingerType(FingerType.Middle);
+        tmp.setFingerDirectionVector(new Vector3d(rightMiddleDir));
+        tmp.setCurvature(rightPalmNormal, rightMiddleDir);
+        tmp.setFingerTipPosition(new Point3d(rightMiddlePos));
+        res.add(tmp);
+
+        tmp = new ru.mtl.VoidVoice.model.Finger();
+        tmp.setFingerType(FingerType.Ring);
+        tmp.setFingerDirectionVector(new Vector3d(rightRingDir));
+        tmp.setCurvature(rightPalmNormal, rightRingDir);
+        tmp.setFingerTipPosition(new Point3d(rightMiddlePos));
+        res.add(tmp);
+
+        tmp = new ru.mtl.VoidVoice.model.Finger();
+        tmp.setFingerType(FingerType.Pinky);
+        tmp.setFingerDirectionVector(new Vector3d(rightPinkyDir));
+        tmp.setCurvature(rightPalmNormal, rightPinkyDir);
+        tmp.setFingerTipPosition(new Point3d(rightPinkyPos));
+        res.add(tmp);
+
+        return res;
+    }
 
     private void averageHands() {
         averageLeftHandsValues();

@@ -1,5 +1,6 @@
 package ru.mtl.VoidVoice.model;
 
+import com.leapmotion.leap.Vector;
 import net.sf.autodao.PersistentEntity;
 
 import javax.persistence.Entity;
@@ -23,16 +24,24 @@ public class Finger implements PersistentEntity<Long> {
     @OneToOne
     private Vector3d fingerDirectionVector;
 
-    private double fingerCurvature;
+    private float fingerCurvature;
 
-    public Finger(FingerType fingerType, Vector3d fingerDirectionVector, double fingerCurvature){
+    private Point3d fingerTipPosition;
+
+    public Finger(){
+
+    }
+
+    public Finger(FingerType fingerType, Vector3d fingerDirectionVector, float fingerCurvature){
         this.fingerType = fingerType;
         this.fingerDirectionVector = fingerDirectionVector;
         this.fingerCurvature = fingerCurvature;
     }
 
-    public Finger(){
-
+    public Finger(FingerType fingertype, Vector3d fingerDirectionVector, Vector3d palmNormal){
+        this.fingerType = fingertype;
+        this.fingerDirectionVector = fingerDirectionVector;
+        setCurvature(palmNormal, fingerDirectionVector);
     }
 
 
@@ -60,7 +69,7 @@ public class Finger implements PersistentEntity<Long> {
         return fingerCurvature;
     }
 
-    public void setFingerCurvature(double fingerCurvature) {
+    public void setFingerCurvature(float fingerCurvature) {
         this.fingerCurvature = fingerCurvature;
     }
 
@@ -72,4 +81,20 @@ public class Finger implements PersistentEntity<Long> {
         this.id = id;
     }
 
+    public void setCurvature(Vector palmNormal, Vector fingerDirection){
+        setCurvature(new Vector3d(palmNormal), new Vector3d(fingerDirection));
+    }
+
+    public void setCurvature(Vector3d palmNormal, Vector3d fingerDirection){
+        float prodRes = Vector3d.scalarProduct(palmNormal, fingerDirection);
+        fingerCurvature = prodRes / palmNormal.module() / fingerDirection.module();
+    }
+
+    public Point3d getFingerTipPosition() {
+        return fingerTipPosition;
+    }
+
+    public void setFingerTipPosition(Point3d fingerTipPosition) {
+        this.fingerTipPosition = fingerTipPosition;
+    }
 }
