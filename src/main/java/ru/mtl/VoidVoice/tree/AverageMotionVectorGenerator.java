@@ -11,11 +11,11 @@ import java.util.List;
 
 public class AverageMotionVectorGenerator {
 
-    final static int AVERAGE_FRAME_NUMBER = 10;
+    private final static int AVERAGE_FRAME_NUMBER = 10;
     private static int frames_number = 0;
     private List<Frame> frames;
 
-    public MotionVector resMotionVector;
+    private MotionVector resMotionVector;
 
     private Presenter presenter;
 
@@ -103,6 +103,8 @@ public class AverageMotionVectorGenerator {
         if(frames_number == AVERAGE_FRAME_NUMBER){
             frames_number = 0;
             resMotionVector = generate();
+            initNumbers();
+            initVectors();
             presenter.motionVectorHandler((ValuableObject) resMotionVector);
         }
     }
@@ -117,6 +119,9 @@ public class AverageMotionVectorGenerator {
 
     public MotionVector generate() {
         //Get hands
+        if ( frames_number == 0){
+            return null;
+        }
         for (Frame frame : frames) {
             for (Hand hand : frame.hands()) {
                 if (!hand.equals(Hand.invalid())) {
@@ -386,4 +391,8 @@ public class AverageMotionVectorGenerator {
         }
     }
 
+
+    public static int getAverageFrameNumber() {
+        return AVERAGE_FRAME_NUMBER;
+    }
 }

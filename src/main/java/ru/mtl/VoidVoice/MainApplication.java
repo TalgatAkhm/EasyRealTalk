@@ -4,6 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import ru.mtl.VoidVoice.model.ValuableObject;
+import ru.mtl.VoidVoice.tree.AverageMotionVectorGenerator;
+import ru.mtl.VoidVoice.worker.Presenter;
 import ru.mtl.VoidVoice.worker.Worker;
 
 public class MainApplication {
