@@ -1,6 +1,7 @@
 package ru.mtl.VoidVoice.model;
 
 import net.sf.autodao.PersistentEntity;
+import ru.mtl.VoidVoice.utils.MotionVectorTouchesConverter;
 
 import java.util.List;
 import javax.persistence.*;
@@ -17,8 +18,7 @@ public class MotionVector implements PersistentEntity<Long> {
     @OneToOne
     private Hand leftHand;
 
-    //TODO:
-    @Transient
+    @Convert(converter = MotionVectorTouchesConverter.class)
     private List<List<Integer>> touchList;
 
     @OneToMany
