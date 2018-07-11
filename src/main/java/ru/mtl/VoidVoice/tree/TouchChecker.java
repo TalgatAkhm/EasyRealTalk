@@ -16,13 +16,19 @@ public class TouchChecker {
 
 
     public List<List<Integer>> check() {
-        List<List<Integer>> touches = new ArrayList<>(points.size());
+        List<List<Integer>> touches = new ArrayList<>();
         for (int i = 0; i < points.size(); ++i) {
-            touches.set(i, new ArrayList<>(points.size()));
+            touches.add(new ArrayList<>(points.size()));
+            for (int j = 0; j < points.size(); ++j) {
+                touches.get(i).add(0);
+            }
+        }
+
+        for (int i = 0; i < points.size(); ++i) {
             for (int j = 0; j < points.size(); ++j) {
                 if (distance(points.get(i), points.get(j)) < EPS) {
-                    //touches[i][j] = 1;
                     touches.get(i).set(j, 1);
+                    touches.get(j).set(i, 1);
                 }
             }
         }
