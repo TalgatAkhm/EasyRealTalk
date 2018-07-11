@@ -136,8 +136,7 @@ hs_err_pid*
 /VoidVoice.iml
 src/test/
 target
-/.idea
-!/src/main/resources/datasource.properties
+/.idea/src/main/resources/datasource.properties
 /src/main/resources/hibernate.properties
 /src/main/resources/datasource.properties
 /src/main/resources/logback.xml

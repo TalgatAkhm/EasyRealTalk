@@ -1,17 +1,15 @@
 package ru.mtl.VoidVoice.worker;
 
 import com.leapmotion.leap.Controller;
-import ru.mtl.VoidVoice.MainApplication;
 import ru.mtl.VoidVoice.dao.MotionDao;
 import ru.mtl.VoidVoice.model.Motion;
 import ru.mtl.VoidVoice.model.MotionType;
+import ru.mtl.VoidVoice.utils.ApplicationContextHolder;
 
-import javax.annotation.Resource;
 import java.io.IOException;
 
 public class Worker {
 
-    @Resource
     private MotionDao motionDao;
 
     public static void main(String[] args) {
@@ -35,7 +33,7 @@ public class Worker {
     }
 
     public void run() {
-        motionDao = MainApplication.getInstance().getSpringContext().getBean(MotionDao.class);
+        motionDao = ApplicationContextHolder.getApplicationContext().getBean(MotionDao.class);
         motionDao.create(new Motion(MotionType.Shake));
     }
 }

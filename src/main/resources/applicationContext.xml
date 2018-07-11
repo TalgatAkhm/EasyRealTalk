@@ -17,6 +17,8 @@
 
     <context:annotation-config/>
 
+    <bean id="applicationContextHolder" class="ru.mtl.VoidVoice.utils.ApplicationContextHolder" />
+
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
             <list>

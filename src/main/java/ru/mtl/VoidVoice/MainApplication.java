@@ -14,11 +14,9 @@ public class MainApplication {
 
     private static MainApplication ourInstance;
 
-    private static ApplicationContext applicationContext;
-
     private MainApplication() {
         LOG.debug("Create application context");
-        applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
+        new ClassPathXmlApplicationContext("applicationContext.xml");
     }
 
     public static void main(String[] args) {
@@ -30,10 +28,6 @@ public class MainApplication {
 
     public static MainApplication getInstance() {
         return ourInstance;
-    }
-
-    public ApplicationContext getSpringContext() {
-        return applicationContext;
     }
 
 }
