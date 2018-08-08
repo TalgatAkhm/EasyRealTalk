@@ -73,4 +73,6 @@
         <aop:advisor advice-ref = "txAdvice" pointcut-ref = "daoPointCut"/>
     </aop:config>
 
+    <bean id="gestureTree" class="ru.mtl.VoidVoice.tree.GestureTree" />
+
 </beans>

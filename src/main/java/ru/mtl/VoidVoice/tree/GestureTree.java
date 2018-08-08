@@ -1,6 +1,7 @@
 package ru.mtl.VoidVoice.tree;
 
-import ru.mtl.VoidVoice.model.Motion;
+import org.springframework.beans.factory.annotation.Autowired;
+import ru.mtl.VoidVoice.dao.FingerDao;
 import ru.mtl.VoidVoice.model.ValuableObject;
 
 import java.util.ArrayList;
@@ -8,6 +9,9 @@ import java.util.List;
 
 final public class GestureTree {
     private static List<TreeNode> tree;
+
+    @Autowired
+    private FingerDao fingerDao;
 
     public static void generate() {
     }

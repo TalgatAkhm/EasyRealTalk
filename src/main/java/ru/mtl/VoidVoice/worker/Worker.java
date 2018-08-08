@@ -1,6 +1,8 @@
 package ru.mtl.VoidVoice.worker;
 
 import com.leapmotion.leap.Controller;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.mtl.VoidVoice.dao.MotionDao;
 import ru.mtl.VoidVoice.dao.MotionVectorDao;
 import ru.mtl.VoidVoice.model.Motion;
@@ -13,11 +15,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Worker {
+    private final static Logger LOG = LoggerFactory.getLogger(Worker.class);
 
     private MotionDao motionDao;
     private MotionVectorDao motionVectorDao;
 
     public static void main(String[] args) {
+        //TODO::Creating motion vector tree
         // Create a sample listener and controller
         WorkerListener listener = new WorkerListener();
         Controller controller = new Controller();
