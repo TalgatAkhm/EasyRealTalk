@@ -44,8 +44,8 @@ public class Worker {
     public void run() {
         motionDao = ApplicationContextHolder.getApplicationContext().getBean(MotionDao.class);
         motionDao.create(new Motion(MotionType.Shake));
-
         //MotionVectorTouchesConverter testing
+        //////////////////////////////////////////////////////////////////////
         motionVectorDao = ApplicationContextHolder.getApplicationContext().getBean(MotionVectorDao.class);
         MotionVector mv = new MotionVector();
         List<List<Integer>> touchList = new ArrayList<>();
@@ -69,5 +69,7 @@ public class Worker {
             }
             System.out.println();
         }
+
+
     }
 }
