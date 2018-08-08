@@ -7,7 +7,7 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
-public class MotionVector implements PersistentEntity<Long> {
+public class MotionVector implements PersistentEntity<Long>, ValuableObject {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -105,4 +105,14 @@ public class MotionVector implements PersistentEntity<Long> {
         this.id = id;
     }
 
+    @Override
+    public boolean isMotion() {
+        return false;
+    }
+
+    @Override
+    public double compareWith(ValuableObject valuableObject) {
+
+        return 0;
+    }
 }

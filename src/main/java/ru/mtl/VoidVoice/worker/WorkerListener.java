@@ -1,9 +1,10 @@
 package ru.mtl.VoidVoice.worker;
 
-import com.leapmotion.leap.*;
+import com.leapmotion.leap.Controller;
+import com.leapmotion.leap.Frame;
+import com.leapmotion.leap.Listener;
 import ru.mtl.VoidVoice.comparator.Compare;
 import ru.mtl.VoidVoice.model.ValuableObject;
-import ru.mtl.VoidVoice.tree.AverageMotionVectorGenerator;
 import ru.mtl.VoidVoice.tree.GestureTree;
 
 import java.util.ArrayList;

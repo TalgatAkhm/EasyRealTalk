@@ -5,7 +5,7 @@ import net.sf.autodao.PersistentEntity;
 import javax.persistence.*;
 
 @Entity
-public class Motion implements PersistentEntity<Long> {
+public class Motion implements PersistentEntity<Long>, ValuableObject {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
@@ -40,4 +40,14 @@ public class Motion implements PersistentEntity<Long> {
         this.id = id;
     }
 
+    @Override
+    public boolean isMotion() {
+        return true;
+    }
+
+    @Override
+    public double compareWith(ValuableObject valuableObject) {
+        // If two motions have the same motion types, then return 1, else return 1
+        return this.motionType == ((Motion) valuableObject).getMotionType() ? 1.0 : 0.0;
+    }
 }

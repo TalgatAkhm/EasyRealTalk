@@ -19,6 +19,7 @@ public final class Compare {
      * or zero if ValuableObjects are different types.
      * **/
     public static double compareValuableObjects(ValuableObject valuableObject, ValuableObject keyPoint) {
+        // If keypoints are the same type, then compare them
         if ((valuableObject.isMotion() && keyPoint.isMotion()) ||
                 (!valuableObject.isMotion() && !keyPoint.isMotion())) {
             return keyPoint.compareWith(valuableObject);
