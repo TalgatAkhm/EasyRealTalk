@@ -1,6 +1,8 @@
 package ru.mtl.VoidVoice.model;
 
-public class KeyPoint {
+import ru.mtl.VoidVoice.comparator.Comparable;
+
+public class KeyPoint implements Comparable<KeyPoint> {
 
     private MotionVector baseVector;
 
@@ -14,5 +16,10 @@ public class KeyPoint {
 
     public void setBaseVector(MotionVector baseVector) {
         this.baseVector = baseVector;
+    }
+
+    @Override
+    public double compareTo(KeyPoint object) {
+        return 0;
     }
 }
