@@ -1,5 +1,6 @@
 package ru.mtl.VoidVoice.comparator;
 
+import ru.mtl.VoidVoice.model.KeyPoint;
 import ru.mtl.VoidVoice.model.ValuableObject;
 
 /**
@@ -18,11 +19,11 @@ public final class Compare {
      * @return the result of the function {@link ValuableObject#compareWith(ValuableObject)}
      * or zero if ValuableObjects are different types.
      * **/
-    public static double compareValuableObjects(ValuableObject valuableObject, ValuableObject keyPoint) {
+    public static double compareValuableObjects(KeyPoint valuableObject, KeyPoint keyPoint) {
         // If keypoints are the same type, then compare them
-        if ((valuableObject.isMotion() && keyPoint.isMotion()) ||
-                (!valuableObject.isMotion() && !keyPoint.isMotion())) {
-            return keyPoint.compareWith(valuableObject);
+        if ((valuableObject.getBaseMotion() == null && keyPoint.getBaseMotion() == null) ||
+                (valuableObject.getBaseVector() == null && keyPoint.getBaseVector() == null)) {
+            return keyPoint.compareTo(valuableObject);
         }
         return 0;
     }

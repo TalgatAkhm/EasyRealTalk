@@ -37,7 +37,7 @@ public class MotionVector implements PersistentEntity<Long>, ValuableObject {
         return this.id;
     }
 
-    public MotionVector(){
+    public MotionVector() {
 
     }
 
@@ -112,7 +112,6 @@ public class MotionVector implements PersistentEntity<Long>, ValuableObject {
 
     @Override
     public double compareWith(ValuableObject valuableObject) {
-
         return 0;
     }
 }

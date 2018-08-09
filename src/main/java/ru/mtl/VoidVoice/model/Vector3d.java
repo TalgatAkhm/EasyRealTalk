@@ -12,9 +12,7 @@ public class Vector3d implements PersistentEntity<Long> {
     private long id;
 
     private float x;
-
     private float y;
-
     private float z;
 
     public Vector3d() {

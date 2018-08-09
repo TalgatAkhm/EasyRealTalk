@@ -12,11 +12,12 @@ public class Gesture implements PersistentEntity<Long> {
     private long id;
 
     @OneToMany
-    private List<MotionVector> keyPointList;
+    @OrderColumn
+    private List<KeyPoint> keyPointList;
 
     private String meaning;
 
-    public Gesture(){
+    public Gesture() {
 
     }
 
@@ -32,11 +33,11 @@ public class Gesture implements PersistentEntity<Long> {
         this.id = id;
     }
 
-    public List<MotionVector> getKeyPointList() {
+    public List<KeyPoint> getKeyPointList() {
         return keyPointList;
     }
 
-    public void setKeyPointList(List<MotionVector> keyPointList) {
+    public void setKeyPointList(List<KeyPoint> keyPointList) {
         this.keyPointList = keyPointList;
     }
 

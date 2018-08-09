@@ -74,5 +74,6 @@
     </aop:config>
 
     <bean id="gestureTree" class="ru.mtl.VoidVoice.tree.GestureTree" />
+    <bean id="workerListener" class="ru.mtl.VoidVoice.worker.WorkerListener" />
 
 </beans>

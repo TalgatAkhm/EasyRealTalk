@@ -12,7 +12,6 @@ public interface MotionVectorDao extends Dao<MotionVector, Long> {
     @Finder(query = "from MotionVector")
     List<MotionVector> getAll();
 
-    @Finder(query="select count(*) from MotionVector")
+    @Finder(query = "select count(*) from MotionVector")
     long count();
-
 }

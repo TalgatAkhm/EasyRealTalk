@@ -1,26 +1,20 @@
 package ru.mtl.VoidVoice.tree;
 
-import ru.mtl.VoidVoice.model.MotionVector;
-import ru.mtl.VoidVoice.model.ValuableObject;
+import ru.mtl.VoidVoice.model.KeyPoint;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TreeNode {
-    private TreeNode parent;
     private List<TreeNode> treeNodeList;
-    private ValuableObject keyPoint;
+    private KeyPoint keyPoint;
 
-    public TreeNode(TreeNode parent, List<TreeNode> treeNodeList, ValuableObject keyPoint) {
-        this.parent = parent;
-        this.treeNodeList = treeNodeList;
+    public TreeNode(KeyPoint keyPoint) {
         this.keyPoint = keyPoint;
+        treeNodeList = new ArrayList<>();
     }
 
-    TreeNode getParent() {
-        return parent;
-    }
-
-    ValuableObject getKeyPoint() {
+    KeyPoint getKeyPoint() {
         return keyPoint;
     }
 

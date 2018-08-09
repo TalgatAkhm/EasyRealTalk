@@ -105,7 +105,7 @@ public class AverageMotionVectorGenerator {
             resMotionVector = generate();
             initNumbers();
             initVectors();
-            presenter.motionVectorHandler((ValuableObject) resMotionVector);
+            presenter.motionVectorHandler(resMotionVector);
         }
     }
 

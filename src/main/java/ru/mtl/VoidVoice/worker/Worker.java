@@ -23,7 +23,7 @@ public class Worker {
     public static void main(String[] args) {
         //TODO::Creating motion vector tree
         // Create a sample listener and controller
-        WorkerListener listener = new WorkerListener();
+        WorkerListener listener = ApplicationContextHolder.getApplicationContext().getBean(WorkerListener.class);
         Controller controller = new Controller();
 
         // Have the sample listener receive events from the controller
