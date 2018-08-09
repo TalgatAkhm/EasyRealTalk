@@ -14,6 +14,9 @@ final public class GestureTree {
     private GestureDao gestureDao;
 
     public void generate() {
+        tree = new ArrayList<>();
+        tree.add(new ArrayList<>());
+        
         List<Gesture> gestures = gestureDao.getAll();
         // Go through all gestures in DB
         for (Gesture gesture : gestures) {
