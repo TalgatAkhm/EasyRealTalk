@@ -11,7 +11,7 @@ public class Gesture implements PersistentEntity<Long> {
     @GeneratedValue (strategy = GenerationType.AUTO)
     private long id;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @OrderColumn
     private List<KeyPoint> keyPointList;
 

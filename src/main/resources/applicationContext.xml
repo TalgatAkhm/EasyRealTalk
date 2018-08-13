@@ -75,5 +75,9 @@
 
     <bean id="gestureTree" class="ru.mtl.VoidVoice.tree.GestureTree" />
     <bean id="workerListener" class="ru.mtl.VoidVoice.worker.WorkerListener" />
-
+    <bean id="databaseHelper" class="ru.mtl.VoidVoice.utils.DatabaseHelper" />
+    <bean id="gestureDefiner" class="ru.mtl.VoidVoice.tree.GestureDefiner" />
+    <bean id="averageMotionVectorGenerator" class="ru.mtl.VoidVoice.tree.AverageMotionVectorGenerator">
+        <constructor-arg name="presenter" ref="gestureDefiner"/>
+    </bean>
 </beans>

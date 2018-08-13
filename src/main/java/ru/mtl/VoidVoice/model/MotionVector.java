@@ -1,36 +1,44 @@
 package ru.mtl.VoidVoice.model;
 
 import net.sf.autodao.PersistentEntity;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import ru.mtl.VoidVoice.comparator.Comparable;
 import ru.mtl.VoidVoice.utils.MotionVectorTouchesConverter;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 
 @Entity
-public class MotionVector implements PersistentEntity<Long>, ValuableObject {
+public class MotionVector implements PersistentEntity<Long>, Comparable<MotionVector> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Hand rightHand;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Hand leftHand;
 
     @Convert(converter = MotionVectorTouchesConverter.class)
     private List<List<Integer>> touchList;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(columnDefinition = "integer")
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Finger> leftFingersList;
 
-    @OneToMany
-    private List<Finger> rightFingerList;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(columnDefinition = "integer")
+    @Fetch(value = FetchMode.SUBSELECT)
+    private List<Finger> rightFingersList;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Motion leftHandMotion;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Motion rightHandMotion;
 
     public Long getPrimaryKey(){
@@ -89,12 +97,12 @@ public class MotionVector implements PersistentEntity<Long>, ValuableObject {
         this.leftFingersList = leftFingersList;
     }
 
-    public List<Finger> getRightFingerList() {
-        return rightFingerList;
+    public List<Finger> getRightFingersList() {
+        return rightFingersList;
     }
 
-    public void setRightFingerList(List<Finger> rightFingerList) {
-        this.rightFingerList = rightFingerList;
+    public void setRightFingersList(List<Finger> rightFingersList) {
+        this.rightFingersList = rightFingersList;
     }
 
     public long getId() {
@@ -106,12 +114,30 @@ public class MotionVector implements PersistentEntity<Long>, ValuableObject {
     }
 
     @Override
-    public boolean isMotion() {
-        return false;
+    public double compareTo(MotionVector motionVector) {
+        double rightHandSimilarity = rightHand.compareTo(motionVector.rightHand);
+        double leftHandSimilarity = leftHand.compareTo(motionVector.leftHand);
+        List<Double> rightFingersSimilarity = getFingersSimilarity(rightFingersList, motionVector.rightFingersList);
+        List<Double> leftFingersSimilarity = getFingersSimilarity(leftFingersList, motionVector.leftFingersList);
+        double rightMotionSimilarity = rightHandMotion.compareTo(rightHandMotion);
+        double leftMotionSimilarity = leftHandMotion.compareTo(leftHandMotion);
+
+        return isSimilar(rightHandSimilarity, leftHandSimilarity, rightFingersSimilarity, leftFingersSimilarity,
+                rightMotionSimilarity, leftMotionSimilarity, touchList);
     }
 
-    @Override
-    public double compareWith(ValuableObject valuableObject) {
-        return 0;
+    // method returns the end double value from 0. to 1. the measure of similarity
+    // of the two MotionVectors
+    private double isSimilar(double rightHandSimilarity, double leftHandSimilarity, List<Double> rightFingersSimilarity, List<Double> leftFingersSimilarity, double rightMotionSimilarity, double leftMotionSimilarity, List<List<Integer>> touchList) {
+        return rightHandSimilarity * leftHandSimilarity;
+    }
+
+    private List<Double> getFingersSimilarity(List<Finger> fingers1, List<Finger> fingers2) {
+        List<Double> result = new ArrayList<>();
+        for (int i = 0; i < fingers1.size(); i++) {
+            result.add(fingers1.get(i).compareTo(fingers2.get(i)));
+        }
+
+        return result;
     }
 }

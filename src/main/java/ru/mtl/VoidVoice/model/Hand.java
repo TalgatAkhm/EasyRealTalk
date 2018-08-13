@@ -1,7 +1,9 @@
 package ru.mtl.VoidVoice.model;
 
 import net.sf.autodao.PersistentEntity;
+import ru.mtl.VoidVoice.comparator.Comparable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,18 +11,18 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 @Entity
-public class Hand implements PersistentEntity<Long> {
+public class Hand implements PersistentEntity<Long>, Comparable<Hand> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Vector3d palmNormalVector;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Vector3d palmDirectionVector;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Vector3d palmVelocity;
 
     private float confidence;
@@ -77,5 +79,20 @@ public class Hand implements PersistentEntity<Long> {
 
     public void setPalmVelocity(Vector3d palmVelocity) {
         this.palmVelocity = palmVelocity;
+    }
+
+    @Override
+    public double compareTo(Hand object) {
+
+        double palmNormalSimilarity = palmNormalVector.compareTo(object.palmNormalVector);
+        double palmDirectionSimilarity = palmDirectionVector.compareTo(object.palmDirectionVector);
+        double palmVelocitySimilarity = palmVelocity.compareTo(object.palmVelocity);
+
+        return isSimilar(palmNormalSimilarity, palmDirectionSimilarity, palmVelocitySimilarity);
+    }
+
+    // This method defines how similar two hand and returns the measure of the similarity
+    private double isSimilar(double palmNormalSimilarity, double palmDirectionSimilarity, double palmVelocitySimilarity) {
+        return palmNormalSimilarity * palmDirectionSimilarity * palmVelocitySimilarity;
     }
 }

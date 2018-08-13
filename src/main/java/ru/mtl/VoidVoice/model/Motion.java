@@ -1,11 +1,18 @@
 package ru.mtl.VoidVoice.model;
 
 import net.sf.autodao.PersistentEntity;
+import ru.mtl.VoidVoice.comparator.Comparable;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
-public class Motion implements PersistentEntity<Long>, ValuableObject {
+public class Motion implements PersistentEntity<Long>, Comparable<Motion> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
@@ -41,13 +48,7 @@ public class Motion implements PersistentEntity<Long>, ValuableObject {
     }
 
     @Override
-    public boolean isMotion() {
-        return true;
-    }
-
-    @Override
-    public double compareWith(ValuableObject valuableObject) {
-        // If two motions have the same motion types, then return 1, else return 1
-        return this.motionType == ((Motion) valuableObject).getMotionType() ? 1.0 : 0.0;
+    public double compareTo(Motion motion) {
+        return this.motionType == motion.getMotionType() ? 1.0 : 0.0;
     }
 }

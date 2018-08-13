@@ -188,7 +188,7 @@ public class AverageMotionVectorGenerator {
         res.setTouchList(checker.check());
 
         res.setLeftFingersList(generateLeftFingerList());
-        res.setRightFingerList(generateRightFingerList());
+        res.setRightFingersList(generateRightFingerList());
 
         res.setLeftHandMotion(null);
         res.setRightHandMotion(null);

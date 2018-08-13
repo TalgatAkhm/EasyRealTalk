@@ -6,7 +6,7 @@ import com.leapmotion.leap.Listener;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.mtl.VoidVoice.tree.AverageMotionVectorGenerator;
 
-class WorkerListener extends Listener {
+public class WorkerListener extends Listener {
     private AverageMotionVectorGenerator generator;
 
     @Autowired

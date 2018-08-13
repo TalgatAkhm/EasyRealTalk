@@ -10,21 +10,16 @@ import ru.mtl.VoidVoice.model.ValuableObject;
 public final class Compare {
 
     /**
-     * Light-weight compare of two {@link ValuableObject}. Checks
+     * Light-weight compare of two {@link Comparable}. Checks
      * whether ValuableObjects are the same type and calls realisation
-     * of {@link ValuableObject#compareWith(ValuableObject)}.
+     * of {@link Comparable#compareTo(Object)}.
      *
      * @param valuableObject an object which we received from Leap Motion
      * @param keyPoint a key point from the tree
-     * @return the result of the function {@link ValuableObject#compareWith(ValuableObject)}
+     * @return the result of the function {@link Comparable#compareTo(Object)}
      * or zero if ValuableObjects are different types.
      * **/
-    public static double compareValuableObjects(KeyPoint valuableObject, KeyPoint keyPoint) {
-        // If keypoints are the same type, then compare them
-        if ((valuableObject.getBaseMotion() == null && keyPoint.getBaseMotion() == null) ||
-                (valuableObject.getBaseVector() == null && keyPoint.getBaseVector() == null)) {
-            return keyPoint.compareTo(valuableObject);
-        }
+    public static double compareValuableObjects(Comparable valuableObject, Comparable keyPoint) {
         return 0;
     }
 }

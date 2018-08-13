@@ -11,9 +11,9 @@ public class KeyPoint implements PersistentEntity<Long>, Comparable<KeyPoint> {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private MotionVector baseVector;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Motion baseMotion;
 
     public KeyPoint() {

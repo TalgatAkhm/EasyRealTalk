@@ -6,6 +6,13 @@ import com.leapmotion.leap.Frame;
 import com.leapmotion.leap.Hand;
 import com.leapmotion.leap.Listener;
 import com.leapmotion.leap.Vector;
+import ru.mtl.voidvoice.motion_treker.model.FingerType;
+import ru.mtl.voidvoice.motion_treker.model.MotionVector;
+import ru.mtl.voidvoice.motion_treker.model.Point3d;
+import ru.mtl.voidvoice.motion_treker.model.Vector3d;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.leapmotion.leap.Finger.Type.TYPE_THUMB;
 
@@ -52,7 +59,7 @@ class WorkerListener extends Listener {
         }
     }
 
-    void showFrameData() {
+    String showFrameData() {
         StringBuilder stringBuilder = new StringBuilder("///////////////////////////////////////////////////////////////\n");
 
         for (Hand hand : frame.hands()) {
@@ -91,17 +98,79 @@ class WorkerListener extends Listener {
 
         stringBuilder.append("\n///////////////////////////////////////////////////////////////");
         System.out.println(stringBuilder.toString());
+        return stringBuilder.toString();
+    }
+
+    MotionVector getMotionVector() {
+        MotionVector result = new MotionVector();
+
+        result.setLeftHand(new ru.mtl.voidvoice.motion_treker.model.Hand());
+        result.setRightHand(new ru.mtl.voidvoice.motion_treker.model.Hand());
+        result.setLeftHandMotion(null);
+        result.setRightHandMotion(null);
+
+        for (Hand hand : frame.hands()) {
+            ru.mtl.voidvoice.motion_treker.model.Hand currentHand;
+            if (hand.isRight()) {
+                currentHand = result.getRightHand();
+            } else {
+                currentHand = result.getLeftHand();
+            }
+
+            currentHand.setPalmDirectionVector(getVector3d(hand.palmNormal()));
+            currentHand.setPalmNormalVector(getVector3d(hand.palmNormal()));
+            currentHand.setPalmVelocity(getVector3d(hand.palmVelocity()));
+            currentHand.setConfidence(hand.confidence());
+
+            List<ru.mtl.voidvoice.motion_treker.model.Finger> fingers = new ArrayList<ru.mtl.voidvoice.motion_treker.model.Finger>();
+
+            for (Finger finger : hand.fingers()) {
+                ru.mtl.voidvoice.motion_treker.model.Finger mFinger = new ru.mtl.voidvoice.motion_treker.model.Finger();
+                mFinger.setFingerType(getFingerType(finger.type()));
+                mFinger.setFingerDirectionVector(getVector3d(finger.direction()));
+                mFinger.setFingerTipPosition(getPoint3d(finger.tipPosition()));
+                fingers.add(mFinger);
+            }
+
+            if (hand.isRight()) {
+                result.setRightFingersList(fingers);
+            } else {
+                result.setLeftFingersList(fingers);
+            }
+        }
+
+        return result;
+    }
+
+    private Vector3d getVector3d(Vector vector) {
+        return new Vector3d(vector.getX(), vector.getY(), vector.getZ());
+    }
+
+    private Point3d getPoint3d(Vector vector) {
+        return new Point3d(vector.getX(), vector.getY(), vector.getZ());
+    }
+
+    private FingerType getFingerType(Finger.Type type) {
+        switch (type) {
+            case TYPE_THUMB: return FingerType.Thumb;
+            case TYPE_INDEX: return FingerType.Index;
+            case TYPE_MIDDLE: return FingerType.Middle;
+            case TYPE_RING: return FingerType.Ring;
+            case TYPE_PINKY: return FingerType.Pinky;
+        }
+
+        return FingerType.Index;
     }
 
     private String getStringFingerType(Finger.Type type) {
         switch (type) {
-            case TYPE_THUMB: return "Thumb";
-            case TYPE_INDEX: return "Index";
-            case TYPE_MIDDLE: return "Middle";
-            case TYPE_RING: return "Ring";
-            case TYPE_PINKY: return "Pinky";
+            case TYPE_THUMB: return FingerType.Thumb.name();
+            case TYPE_INDEX: return FingerType.Index.name();
+            case TYPE_MIDDLE: return FingerType.Middle.name();
+            case TYPE_RING: return FingerType.Ring.name();
+            case TYPE_PINKY: return FingerType.Pinky.name();
         }
 
-        return "";
+        return FingerType.Index.name();
     }
 }

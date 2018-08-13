@@ -1,6 +1,7 @@
 package ru.mtl.VoidVoice.model;
 
-public interface ValuableObject {
+import ru.mtl.VoidVoice.comparator.Comparable;
+
+public interface ValuableObject extends Comparable<ValuableObject> {
     boolean isMotion();
-    double compareWith(ValuableObject valuableObject);
 }

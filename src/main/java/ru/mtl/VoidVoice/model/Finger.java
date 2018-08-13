@@ -2,7 +2,9 @@ package ru.mtl.VoidVoice.model;
 
 import com.leapmotion.leap.Vector;
 import net.sf.autodao.PersistentEntity;
+import ru.mtl.VoidVoice.comparator.Comparable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -13,7 +15,7 @@ import javax.persistence.OneToOne;
 
 
 @Entity
-public class Finger implements PersistentEntity<Long> {
+public class Finger implements PersistentEntity<Long>, Comparable<Finger> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -21,12 +23,12 @@ public class Finger implements PersistentEntity<Long> {
     @Enumerated(EnumType.STRING)
     private FingerType fingerType;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Vector3d fingerDirectionVector;
 
     private float fingerCurvature;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Point3d fingerTipPosition;
 
     public Finger(){
@@ -97,5 +99,17 @@ public class Finger implements PersistentEntity<Long> {
 
     public void setFingerTipPosition(Point3d fingerTipPosition) {
         this.fingerTipPosition = fingerTipPosition;
+    }
+
+    @Override
+    public double compareTo(Finger object) {
+        double fingerDirectionSimilarity = fingerDirectionVector.compareTo(object.fingerDirectionVector);
+        double fingerTipSimilarity = fingerTipPosition.compareTo(object.fingerTipPosition);
+
+        return isSimilar(fingerDirectionSimilarity, fingerTipSimilarity);
+    }
+
+    private double isSimilar(double fingerDirectionSimilarity, double fingerTipSimilarity) {
+        return fingerDirectionSimilarity * fingerTipSimilarity;
     }
 }

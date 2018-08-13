@@ -1,8 +1,9 @@
 package ru.mtl.VoidVoice.tree;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import ru.mtl.VoidVoice.dao.*;
-import ru.mtl.VoidVoice.model.*;
+import ru.mtl.VoidVoice.dao.GestureDao;
+import ru.mtl.VoidVoice.model.Gesture;
+import ru.mtl.VoidVoice.model.KeyPoint;
+import ru.mtl.VoidVoice.utils.ApplicationContextHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +11,12 @@ import java.util.List;
 final public class GestureTree {
     private static List<List<TreeNode>> tree;
 
-    @Autowired
     private GestureDao gestureDao;
+
+    public GestureTree() {
+        gestureDao = ApplicationContextHolder.getApplicationContext().getBean(GestureDao.class);
+        generate();
+    }
 
     public void generate() {
         tree = new ArrayList<>();
@@ -69,5 +74,16 @@ final public class GestureTree {
             }
         }
         return keyPointList;
+    }
+
+    public String drawTree() {
+        StringBuilder builder = new StringBuilder();
+        for (List<TreeNode> treeNodeList : tree) {
+            for (TreeNode node : treeNodeList) {
+                builder.append(node.getKeyPoint().getPrimaryKey()).append("\n");
+            }
+        }
+
+        return builder.toString();
     }
 }
