@@ -1,0 +1,98 @@
+[
+{
+  "rightHand" : {
+    "palmNormalVector" : {
+      "x" : 0.2448787,
+      "y" : -0.1557963,
+      "z" : 0.95695454
+    },
+    "palmDirectionVector" : {
+      "x" : 0.2448787,
+      "y" : -0.1557963,
+      "z" : 0.95695454
+    },
+    "palmVelocity" : {
+      "x" : 0.30858007,
+      "y" : 1.6255859,
+      "z" : -0.92381614
+    },
+    "confidence" : 0.70665306
+  },
+  "leftHand" : {
+    "palmNormalVector" : null,
+    "palmDirectionVector" : null,
+    "palmVelocity" : null,
+    "confidence" : 0.0
+  },
+  "touchList" : null,
+  "leftFingersList" : null,
+  "rightFingersList" : [ {
+    "fingerType" : "Thumb",
+    "fingerDirectionVector" : {
+      "x" : -0.6120941,
+      "y" : -0.28436685,
+      "z" : 0.73788637
+    },
+    "fingerCurvature" : 0.0,
+    "fingerTipPosition" : {
+      "x" : 4.3759413,
+      "y" : 120.33747,
+      "z" : 50.241432
+    }
+  }, {
+    "fingerType" : "Index",
+    "fingerDirectionVector" : {
+      "x" : -0.29695627,
+      "y" : 0.032224324,
+      "z" : 0.9543472
+    },
+    "fingerCurvature" : 0.0,
+    "fingerTipPosition" : {
+      "x" : -41.84819,
+      "y" : 140.28273,
+      "z" : 63.71355
+    }
+  }, {
+    "fingerType" : "Middle",
+    "fingerDirectionVector" : {
+      "x" : 0.9365517,
+      "y" : -0.21842217,
+      "z" : -0.2741581
+    },
+    "fingerCurvature" : 0.0,
+    "fingerTipPosition" : {
+      "x" : 26.925528,
+      "y" : 106.702446,
+      "z" : 13.342395
+    }
+  }, {
+    "fingerType" : "Ring",
+    "fingerDirectionVector" : {
+      "x" : 0.9556438,
+      "y" : -0.12823503,
+      "z" : -0.26514298
+    },
+    "fingerCurvature" : 0.0,
+    "fingerTipPosition" : {
+      "x" : 26.094028,
+      "y" : 91.13025,
+      "z" : 7.142549
+    }
+  }, {
+    "fingerType" : "Pinky",
+    "fingerDirectionVector" : {
+      "x" : 0.98321766,
+      "y" : 0.083628155,
+      "z" : -0.16213995
+    },
+    "fingerCurvature" : 0.0,
+    "fingerTipPosition" : {
+      "x" : 17.671951,
+      "y" : 81.471565,
+      "z" : 5.081304
+    }
+  } ],
+  "leftHandMotion" : null,
+  "rightHandMotion" : null
+}
+]

@@ -1,0 +1,98 @@
+[
+{
+  "rightHand" : {
+    "palmNormalVector" : {
+      "x" : -0.33095035,
+      "y" : -0.7347441,
+      "z" : -0.5921343
+    },
+    "palmDirectionVector" : {
+      "x" : -0.33095035,
+      "y" : -0.7347441,
+      "z" : -0.5921343
+    },
+    "palmVelocity" : {
+      "x" : 1.8414216,
+      "y" : 2.9009733,
+      "z" : 1.7940757
+    },
+    "confidence" : 0.2460083
+  },
+  "leftHand" : {
+    "palmNormalVector" : null,
+    "palmDirectionVector" : null,
+    "palmVelocity" : null,
+    "confidence" : 0.0
+  },
+  "touchList" : null,
+  "leftFingersList" : null,
+  "rightFingersList" : [ {
+    "fingerType" : "Thumb",
+    "fingerDirectionVector" : {
+      "x" : -0.7105033,
+      "y" : 0.628684,
+      "z" : 0.31613532
+    },
+    "fingerCurvature" : 0.0,
+    "fingerTipPosition" : {
+      "x" : -45.35415,
+      "y" : 178.1202,
+      "z" : 36.184956
+    }
+  }, {
+    "fingerType" : "Index",
+    "fingerDirectionVector" : {
+      "x" : 0.8088225,
+      "y" : -0.5719618,
+      "z" : 0.13662276
+    },
+    "fingerCurvature" : 0.0,
+    "fingerTipPosition" : {
+      "x" : -22.592108,
+      "y" : 133.36119,
+      "z" : -34.0592
+    }
+  }, {
+    "fingerType" : "Middle",
+    "fingerDirectionVector" : {
+      "x" : 0.7545589,
+      "y" : -0.60392225,
+      "z" : 0.25674653
+    },
+    "fingerCurvature" : 0.0,
+    "fingerTipPosition" : {
+      "x" : -12.987276,
+      "y" : 132.97151,
+      "z" : -40.33372
+    }
+  }, {
+    "fingerType" : "Ring",
+    "fingerDirectionVector" : {
+      "x" : 0.6225951,
+      "y" : -0.6647251,
+      "z" : 0.41293567
+    },
+    "fingerCurvature" : 0.0,
+    "fingerTipPosition" : {
+      "x" : -2.68967,
+      "y" : 136.36374,
+      "z" : -44.996117
+    }
+  }, {
+    "fingerType" : "Pinky",
+    "fingerDirectionVector" : {
+      "x" : 0.44271478,
+      "y" : -0.7263598,
+      "z" : 0.5257425
+    },
+    "fingerCurvature" : 0.0,
+    "fingerTipPosition" : {
+      "x" : 1.2624699,
+      "y" : 146.38084,
+      "z" : -53.0358
+    }
+  } ],
+  "leftHandMotion" : null,
+  "rightHandMotion" : null
+}
+]

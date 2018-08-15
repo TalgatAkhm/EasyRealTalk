@@ -140,4 +140,3 @@ target
 /src/main/resources/hibernate.properties
 /src/main/resources/datasource.properties
 /src/main/resources/logback.xml
-/motion_treker
