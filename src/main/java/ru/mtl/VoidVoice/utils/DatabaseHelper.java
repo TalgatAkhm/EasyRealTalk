@@ -22,7 +22,7 @@ import java.util.List;
 
 public class DatabaseHelper {
     private static final String FOLDER_LOCATION =
-            "/Users/mac/projects/SignLanguageLeapMotion/EasyRealTalk/motion_treker/src/main/resources/button_result/";
+            "/Users/aleksejfilippov/Desktop/java projects/metrpro/EasyRealTalk/src/main/resources";
 
     private GestureDao gestureDao;
 
@@ -35,8 +35,6 @@ public class DatabaseHelper {
         motionVectorDao = ApplicationContextHolder.getApplicationContext().getBean(MotionVectorDao.class);
 
         mapper = new ObjectMapper();
-
-//        insertHardcodeData("Привет");
     }
 
     public void insertHardcodeData(String gestureName, String fileName) {
@@ -54,6 +52,7 @@ public class DatabaseHelper {
                 gesture.getKeyPointList().add(keyPoint);
             }
 
+            gestureDao.create(gesture);
         } catch (IOException e) {
             e.printStackTrace();
         }

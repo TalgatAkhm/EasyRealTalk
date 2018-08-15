@@ -26,10 +26,10 @@ public class Finger implements PersistentEntity<Long>, Comparable<Finger> {
     @OneToOne(cascade = CascadeType.ALL)
     private Vector3d fingerDirectionVector;
 
-    private float fingerCurvature;
+    private double fingerCurvature;//
 
     @OneToOne(cascade = CascadeType.ALL)
-    private Point3d fingerTipPosition;
+    private Point3d fingerTipPosition;//
 
     public Finger(){
 
@@ -89,7 +89,7 @@ public class Finger implements PersistentEntity<Long>, Comparable<Finger> {
     }
 
     public void setCurvature(Vector3d palmNormal, Vector3d fingerDirection){
-        float prodRes = Vector3d.scalarProduct(palmNormal, fingerDirection);
+        double prodRes = Vector3d.scalarProduct(palmNormal, fingerDirection);
         fingerCurvature = prodRes / palmNormal.module() / fingerDirection.module();
     }
 
@@ -111,5 +111,19 @@ public class Finger implements PersistentEntity<Long>, Comparable<Finger> {
 
     private double isSimilar(double fingerDirectionSimilarity, double fingerTipSimilarity) {
         return fingerDirectionSimilarity * fingerTipSimilarity;
+    }
+
+    public Double getFingerNum() {
+        if (this.fingerType.equals(FingerType.Pinky)) {
+            return 1.d;
+        } else if (this.fingerType.equals(FingerType.Ring)) {
+            return 2.d;
+        } else if (this.fingerType.equals(FingerType.Middle)){
+            return 3.d;
+        } else if (this.fingerType.equals(FingerType.Index)){
+            return 4.d;
+        } else if(this.fingerType.equals(FingerType.Thumb)){
+            return 5.d;
+        } else return 0.d;
     }
 }

@@ -35,8 +35,8 @@ public class Worker {
 
 //        databaseHelper = ApplicationContextHolder.getApplicationContext().getBean(DatabaseHelper.class);
 //        databaseHelper.insertHardcodeData("Привет", "current.json");
-        GestureTree gestureTree = ApplicationContextHolder.getApplicationContext().getBean(GestureTree.class);
-        System.out.println(gestureTree.drawTree());
+//        GestureTree gestureTree = ApplicationContextHolder.getApplicationContext().getBean(GestureTree.class);
+//        System.out.println(gestureTree.drawTree());
         // Have the sample listener receive events from the controller
         controller.addListener(listener);
 
@@ -50,12 +50,23 @@ public class Worker {
 
         // Remove the sample listener when done
         controller.removeListener(listener);
+//
+//        GestureDao gestureDao = ApplicationContextHolder.getApplicationContext().getBean(GestureDao.class);
+//        List<Gesture> list = gestureDao.getAll();
 
-        GestureDao gestureDao = ApplicationContextHolder.getApplicationContext().getBean(GestureDao.class);
-        List<Gesture> list = gestureDao.getAll();
+
     }
 
     public void run2() {
         ApplicationContext context = ApplicationContextHolder.getApplicationContext();
+        MotionVectorDao motionVectorDao = context.getBean(MotionVectorDao.class);
+        List<MotionVector> list = motionVectorDao.getAll();
+
+//        for (:
+//             ) {
+//
+//        }
+        System.out.println(list.get(0).getRightFingersList().size());
+
     }
 }

@@ -19,7 +19,11 @@ public class MainApplication {
         LOG.debug("Creating MainApplication");
         ourInstance = new MainApplication();
 
-        new Worker().run();
+//        DatabaseHelper databaseHelper = ApplicationContextHolder.getApplicationContext().getBean(DatabaseHelper.class);
+//        databaseHelper.insertHardcodeData("Привет", "current.json");
+
+        new Worker().run2();
+//        new Worker().run();
     }
 
     public static MainApplication getInstance() {

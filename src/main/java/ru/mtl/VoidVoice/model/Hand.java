@@ -25,7 +25,7 @@ public class Hand implements PersistentEntity<Long>, Comparable<Hand> {
     @OneToOne(cascade = CascadeType.ALL)
     private Vector3d palmVelocity;
 
-    private float confidence;
+    private float confidence;//
 
 
     public Hand() {

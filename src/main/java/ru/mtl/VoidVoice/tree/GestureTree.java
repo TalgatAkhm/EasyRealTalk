@@ -15,7 +15,7 @@ final public class GestureTree {
 
     public GestureTree() {
         gestureDao = ApplicationContextHolder.getApplicationContext().getBean(GestureDao.class);
-        generate();
+//        generate();
     }
 
     public void generate() {
@@ -85,5 +85,8 @@ final public class GestureTree {
         }
 
         return builder.toString();
+    }
+    public static List<List<TreeNode>> getTree() {
+        return tree;
     }
 }

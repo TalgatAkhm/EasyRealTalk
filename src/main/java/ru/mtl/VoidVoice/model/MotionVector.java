@@ -23,7 +23,7 @@ public class MotionVector implements PersistentEntity<Long>, Comparable<MotionVe
     private Hand leftHand;
 
     @Convert(converter = MotionVectorTouchesConverter.class)
-    private List<List<Integer>> touchList;
+    private List<List<Integer>> touchList;//
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(columnDefinition = "integer")
@@ -36,10 +36,10 @@ public class MotionVector implements PersistentEntity<Long>, Comparable<MotionVe
     private List<Finger> rightFingersList;
 
     @OneToOne(cascade = CascadeType.ALL)
-    private Motion leftHandMotion;
+    private Motion leftHandMotion;//
 
     @OneToOne(cascade = CascadeType.ALL)
-    private Motion rightHandMotion;
+    private Motion rightHandMotion;//
 
     public Long getPrimaryKey(){
         return this.id;
