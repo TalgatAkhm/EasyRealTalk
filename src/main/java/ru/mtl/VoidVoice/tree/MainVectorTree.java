@@ -1,5 +1,6 @@
 package ru.mtl.VoidVoice.tree;
 
+import ru.mtl.VoidVoice.model.KeyPoint;
 import ru.mtl.VoidVoice.model.MainVector;
 import ru.mtl.VoidVoice.model.Metrics;
 
@@ -10,14 +11,12 @@ public class MainVectorTree {
 
     private List<List<MainVector>> mainVectorLayersList;
 
-    public MainVectorTree(GestureTree gestureTree) {
+    public MainVectorTree() {
             mainVectorLayersList = new ArrayList<>();
-        for (List<TreeNode> treeNodeList:
-             gestureTree.getTree()) {
+        for (List<KeyPoint> treeNodeList : GestureTree.getTree()) {
             List<MainVector> mainVectorList = new ArrayList<>();
-            for (TreeNode treeNode :
-                    treeNodeList) {
-                mainVectorList.add(new MainVector(treeNode.getKeyPoint().getBaseVector()));
+            for (KeyPoint treeNode : treeNodeList) {
+                mainVectorList.add(new MainVector(treeNode.getBaseVector()));
             }
             mainVectorLayersList.add(mainVectorList);
         }
