@@ -10,6 +10,7 @@ import ru.mtl.voidvoice.motion_treker.model.FingerType;
 import ru.mtl.voidvoice.motion_treker.model.MotionVector;
 import ru.mtl.voidvoice.motion_treker.model.Point3d;
 import ru.mtl.voidvoice.motion_treker.model.Vector3d;
+import ru.mtl.voidvoice.motion_treker.tree.AverageMotionVectorGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +25,15 @@ class WorkerListener extends Listener {
     private long currentTimeStamp = -1;
 
     private Frame frame;
+    public MotionVector avg;
+    private int numFrames = 0;
+
+    AverageMotionVectorGenerator generator;
 
     WorkerListener() {
         currentTimeStamp = System.currentTimeMillis();
+        generator = new AverageMotionVectorGenerator();
+        avg = new MotionVector();
     }
 
     @Override
@@ -109,6 +116,9 @@ class WorkerListener extends Listener {
         result.setLeftHandMotion(null);
         result.setRightHandMotion(null);
 
+        generator.addFrame(frame);
+        ++numFrames;
+
         for (Hand hand : frame.hands()) {
             ru.mtl.voidvoice.motion_treker.model.Hand currentHand;
             if (hand.isRight()) {
@@ -117,7 +127,7 @@ class WorkerListener extends Listener {
                 currentHand = result.getLeftHand();
             }
 
-            currentHand.setPalmDirectionVector(getVector3d(hand.palmNormal()));
+            currentHand.setPalmDirectionVector(getVector3d(hand.direction()));
             currentHand.setPalmNormalVector(getVector3d(hand.palmNormal()));
             currentHand.setPalmVelocity(getVector3d(hand.palmVelocity()));
             currentHand.setConfidence(hand.confidence());
@@ -140,6 +150,16 @@ class WorkerListener extends Listener {
         }
 
         return result;
+    }
+
+    public MotionVector getAvg(){
+        avg = generator.generate();
+
+        System.out.println();
+        // System.out.println(numFrames);
+        System.out.println();
+        // System.out.println(avg.get);
+        return avg;
     }
 
     private Vector3d getVector3d(Vector vector) {

@@ -1,57 +1,65 @@
 package ru.mtl.voidvoice.motion_treker.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.leapmotion.leap.Vector;
+// import net.sf.autodao.PersistentEntity;
+//import org.jetbrains.annotations.NotNull;
+// import ru.mtl.voidvoice.comparator.Comparable;
+
+// import javax.persistence.*;
+import java.util.ArrayList;
 
 public class Vector3d {
-    @JsonIgnore
     private long id;
 
-    private float x;
-    private float y;
-    private float z;
+    private double x;
+    private double y;
+    private double z;
 
     public Vector3d() {
-
     }
 
-    public Vector3d(float x, float y, float z) {
+    public Long getPrimaryKey() {
+        return this.id;
+    }
+
+    public Vector3d(double x, double y, double z) {
         this.x = x;
         this.y = y;
         this.z = z;
     }
 
-    public Vector3d(Vector3d ext){
+    public Vector3d(Vector ext) {
         x = ext.getX();
         y = ext.getY();
         z = ext.getZ();
     }
 
 
-    public float getX() {
+    public double getX() {
         return x;
     }
 
-    public void setX(float x) {
+    public void setX(double x) {
         this.x = x;
     }
 
-    public float getY() {
+    public double getY() {
         return y;
     }
 
-    public void setY(float y) {
+    public void setY(double y) {
         this.y = y;
     }
 
-    public float getZ() {
+    public double getZ() {
         return z;
     }
 
-    public void setZ(float z) {
+    public void setZ(double z) {
         this.z = z;
     }
 
-    public void setCoordinate(float x, float y, float z) {
+    public void setCoordinate(double x, double y, double z) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -66,21 +74,30 @@ public class Vector3d {
         this.id = id;
     }
 
-    public float scalarProduct(Vector3d second){
+    public double scalarProduct(Vector3d second) {
         return scalarProduct(this, second);
     }
 
-    public static float scalarProduct(Vector3d first, Vector3d second){
+    public static double scalarProduct(Vector3d first, Vector3d second) {
         return (first.x * second.x + first.y * second.y + first.z * second.z);
     }
 
-    public static double module(Vector3d v){
+    public static double module(Vector3d v) {
         return Math.sqrt(scalarProduct(v, v));
     }
 
-    public float module(){
-        return (float) module(this);
+    public double module() {
+        return module(this);
     }
+/*
+    @Override
+    public double compareTo(@NotNull Vector3d object) {
+        double angleXSimilarity = 1 - Math.abs(getAngleOX(this) - getAngleOX(object)) / Math.PI;
+        double angleYSimilarity = 1 - Math.abs(getAngleOY(this) - getAngleOY(object)) / Math.PI;
+        double angleZSimilarity = 1 - Math.abs(getAngleOZ(this) - getAngleOZ(object)) / Math.PI;
+
+        return angleXSimilarity * angleYSimilarity * angleZSimilarity;
+    }*/
 
     private double getAngleOX(Vector3d vector3d) {
         Vector3d normalX = new Vector3d(1, 0, 0);
@@ -98,5 +115,13 @@ public class Vector3d {
         Vector3d normalZ = new Vector3d(0, 0, 1);
         double cos = scalarProduct(vector3d, normalZ) / (module(vector3d) * module(normalZ));
         return Math.acos(cos);
+    }
+
+    public ArrayList<Double> getCoordinatesList() {
+        ArrayList<Double> arrayList = new ArrayList<>();
+        arrayList.add(this.x);
+        arrayList.add(this.y);
+        arrayList.add(this.z);
+        return arrayList;
     }
 }

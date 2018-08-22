@@ -22,8 +22,8 @@ public class MainApplication {
 //        DatabaseHelper databaseHelper = ApplicationContextHolder.getApplicationContext().getBean(DatabaseHelper.class);
 //        databaseHelper.insertHardcodeData("Привет", "current.json");
 
-        new Worker().run2();
-//        new Worker().run();
+        // new Worker().run2();
+        new Worker().run3();
     }
 
     public static MainApplication getInstance() {

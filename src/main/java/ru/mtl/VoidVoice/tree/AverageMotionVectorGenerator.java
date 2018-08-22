@@ -105,19 +105,21 @@ public class AverageMotionVectorGenerator {
             resMotionVector = generate();
             initNumbers();
             initVectors();
+            frames = new ArrayList<>();
             presenter.motionVectorHandler(resMotionVector);
         }
     }
 
     public AverageMotionVectorGenerator(Presenter presenter) {
         frames = new ArrayList<>();
+        frames_number = 0;
         initNumbers();
         initVectors();
         this.presenter = presenter;
     }
 
 
-    public MotionVector generate() {
+    private MotionVector generate() {
         //Get hands
         if ( frames_number == 0){
             return null;
@@ -283,7 +285,7 @@ public class AverageMotionVectorGenerator {
     }
 
     private void averageLeftHandsValues() {
-        final int n = leftHandsNumber;
+        final float n = leftHandsNumber * 1.0f;
         leftPalmNormal = coordinateDivider(leftPalmNormal, n);
         leftHandDirection = coordinateDivider(leftHandDirection, n);
         leftConfidence /= n;
@@ -306,7 +308,7 @@ public class AverageMotionVectorGenerator {
     }
 
     private void averageRightHandsValues() {
-        final int n = rightHandsNumber;
+        final float n = rightHandsNumber * 1.0f;
         rightPalmNormal = coordinateDivider(rightPalmNormal, n);
         rightHandDirection = coordinateDivider(rightHandDirection, n);
         rightConfidence /= n;
@@ -329,12 +331,21 @@ public class AverageMotionVectorGenerator {
     }
 
     private Vector coordinateSummer(Vector first, Vector second) {
-        return new Vector(first.getX() + second.getX(), first.getY() + second.getY(),
-                first.getZ() + second.getZ());
+        //return new Vector(first.getX() + second.getX(), first.getY() + second.getY(),
+        //      first.getZ() + second.getZ());
+        Vector tmp = new Vector();
+        tmp.setX(first.getX() + second.getX());
+        tmp.setY(first.getY() + second.getY());
+        tmp.setZ(first.getZ() + second.getZ());
+        return tmp;
     }
 
     private Vector coordinateDivider(Vector v, float number) {
-        return new Vector(v.getX() / number, v.getY() / number, v.getZ() / number);
+        Vector tmp = new Vector();
+        tmp.setX(v.getX() / number);
+        tmp.setY(v.getY() / number);
+        tmp.setZ(v.getZ() / number);
+        return tmp;
     }
 
     private void plusLeftFingers(Hand hand) {
