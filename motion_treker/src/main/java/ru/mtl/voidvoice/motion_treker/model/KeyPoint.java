@@ -1,6 +1,9 @@
 package ru.mtl.voidvoice.motion_treker.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class KeyPoint {
+    @JsonIgnore
     private long id;
 
     private MotionVector baseVector;

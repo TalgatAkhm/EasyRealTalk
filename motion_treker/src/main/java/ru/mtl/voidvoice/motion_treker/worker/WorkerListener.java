@@ -10,9 +10,9 @@ import ru.mtl.voidvoice.motion_treker.model.FingerType;
 import ru.mtl.voidvoice.motion_treker.model.MotionVector;
 import ru.mtl.voidvoice.motion_treker.model.Point3d;
 import ru.mtl.voidvoice.motion_treker.model.Vector3d;
-import ru.mtl.voidvoice.motion_treker.tree.AverageMotionVectorGenerator;
 
 import java.util.ArrayList;
+import java.util.IllegalFormatException;
 import java.util.List;
 
 import static com.leapmotion.leap.Finger.Type.TYPE_THUMB;
@@ -25,15 +25,9 @@ class WorkerListener extends Listener {
     private long currentTimeStamp = -1;
 
     private Frame frame;
-    public MotionVector avg;
-    private int numFrames = 0;
-
-    AverageMotionVectorGenerator generator;
 
     WorkerListener() {
         currentTimeStamp = System.currentTimeMillis();
-        generator = new AverageMotionVectorGenerator();
-        avg = new MotionVector();
     }
 
     @Override
@@ -116,9 +110,6 @@ class WorkerListener extends Listener {
         result.setLeftHandMotion(null);
         result.setRightHandMotion(null);
 
-        generator.addFrame(frame);
-        ++numFrames;
-
         for (Hand hand : frame.hands()) {
             ru.mtl.voidvoice.motion_treker.model.Hand currentHand;
             if (hand.isRight()) {
@@ -127,7 +118,7 @@ class WorkerListener extends Listener {
                 currentHand = result.getLeftHand();
             }
 
-            currentHand.setPalmDirectionVector(getVector3d(hand.direction()));
+            currentHand.setPalmDirectionVector(getVector3d(hand.palmNormal()));
             currentHand.setPalmNormalVector(getVector3d(hand.palmNormal()));
             currentHand.setPalmVelocity(getVector3d(hand.palmVelocity()));
             currentHand.setConfidence(hand.confidence());
@@ -148,18 +139,72 @@ class WorkerListener extends Listener {
                 result.setLeftFingersList(fingers);
             }
         }
-
+//        result.setTouchList(createTouchList(result));
         return result;
     }
 
-    public MotionVector getAvg(){
-        avg = generator.generate();
+    private static final int MAX_AFFORTABLE_DISTANCE = 1;
 
-        System.out.println();
-        // System.out.println(numFrames);
-        System.out.println();
-        // System.out.println(avg.get);
-        return avg;
+    private List<List<Double>> createTouchList(MotionVector motionVector) {
+        List<List<Double>> layerList = new ArrayList<List<Double>>();
+        //в случае одной руки layerList содержит 5 элементов(touchList). Первый layer содержит один элемент(соприкосновение 1го и 1го пальцев(Pinky)),
+        // второй - два эл-та соприкосновения 2го пальца с 1ым и 2ым, и так еще три слоя.
+        if (motionVector.getLeftFingersList().isEmpty() || motionVector.getRightFingersList().isEmpty()) {
+            throw new IllegalArgumentException("somehow MotionLeap has sent frame without hands");
+        } else if (motionVector.getLeftFingersList().isEmpty()) {
+            for (int i = 0; i < motionVector.getRightFingersList().size(); i++) {
+                List touchList = new ArrayList<Double>();
+                for (int j = 0; j < i + 1; j++) {
+                    touchList.add(checkTouch(motionVector.getRightFingersList().get(i).getFingerTipPosition(), motionVector.getRightFingersList().get(j).getFingerTipPosition()));
+                }
+                layerList.add(touchList);
+            }
+        } else if (motionVector.getRightFingersList().isEmpty()) {
+            for (int i = 0; i < motionVector.getRightFingersList().size(); i++) {
+                List touchList = new ArrayList<Double>();
+                for (int j = 0; j < i + 1; j++) {
+                    touchList.add(checkTouch(motionVector.getLeftFingersList().get(i).getFingerTipPosition(), motionVector.getLeftFingersList().get(j).getFingerTipPosition()));
+                }
+                layerList.add(touchList);
+            }
+        } else {
+            for (int i = 0; i < motionVector.getLeftFingersList().size(); i++) {
+                List touchList = new ArrayList<Double>();
+                for (int j = 0; j < motionVector.getLeftFingersList().size(); j++) {
+                    touchList.add(checkTouch(motionVector.getLeftFingersList().get(i).getFingerTipPosition(), motionVector.getLeftFingersList().get(j).getFingerTipPosition()));
+                    layerList.add(touchList);
+                }
+            }
+            layerList.get(1).set(0, checkTouch(motionVector.getRightFingersList().get(4).getFingerTipPosition(), motionVector.getRightFingersList().get(5).getFingerTipPosition()));
+            layerList.get(2).set(0, checkTouch(motionVector.getRightFingersList().get(3).getFingerTipPosition(), motionVector.getRightFingersList().get(4).getFingerTipPosition()));
+            layerList.get(2).set(1, checkTouch(motionVector.getRightFingersList().get(3).getFingerTipPosition(), motionVector.getRightFingersList().get(5).getFingerTipPosition()));
+            layerList.get(3).set(0, checkTouch(motionVector.getRightFingersList().get(2).getFingerTipPosition(), motionVector.getRightFingersList().get(3).getFingerTipPosition()));
+            layerList.get(3).set(1, checkTouch(motionVector.getRightFingersList().get(2).getFingerTipPosition(), motionVector.getRightFingersList().get(4).getFingerTipPosition()));
+            layerList.get(3).set(2, checkTouch(motionVector.getRightFingersList().get(2).getFingerTipPosition(), motionVector.getRightFingersList().get(5).getFingerTipPosition()));
+            layerList.get(4).set(0, checkTouch(motionVector.getRightFingersList().get(1).getFingerTipPosition(), motionVector.getRightFingersList().get(2).getFingerTipPosition()));
+            layerList.get(4).set(1, checkTouch(motionVector.getRightFingersList().get(1).getFingerTipPosition(), motionVector.getRightFingersList().get(3).getFingerTipPosition()));
+            layerList.get(4).set(2, checkTouch(motionVector.getRightFingersList().get(1).getFingerTipPosition(), motionVector.getRightFingersList().get(4).getFingerTipPosition()));
+            layerList.get(4).set(3, checkTouch(motionVector.getRightFingersList().get(1).getFingerTipPosition(), motionVector.getRightFingersList().get(5).getFingerTipPosition()));
+
+            for (int i = 0; i < motionVector.getLeftFingersList().size(); i++) {
+                for (int j = 0; j < motionVector.getRightFingersList().size(); j++) {
+                    layerList.get(i).add(checkTouch(motionVector.getLeftFingersList().get(i).getFingerTipPosition(), motionVector.getRightFingersList().get(i).getFingerTipPosition()));
+                }
+            }
+        }
+        return layerList;
+    }
+
+    private double checkTouch(Point3d point1, Point3d point2) {
+        // если точки совпадают, возвращаем -1, если между ними расстояние меньше MAX_AFFORTABLE_DISTANCE,
+        // то возвращаем 1(касание), если больше, то 0.
+        if (point1.equals(point2)) {
+            return -1.d;
+        } else if (point1.distance(point2) < MAX_AFFORTABLE_DISTANCE) {
+            return 1.d;
+        } else {
+            return 0.d;
+        }
     }
 
     private Vector3d getVector3d(Vector vector) {
@@ -172,11 +217,16 @@ class WorkerListener extends Listener {
 
     private FingerType getFingerType(Finger.Type type) {
         switch (type) {
-            case TYPE_THUMB: return FingerType.Thumb;
-            case TYPE_INDEX: return FingerType.Index;
-            case TYPE_MIDDLE: return FingerType.Middle;
-            case TYPE_RING: return FingerType.Ring;
-            case TYPE_PINKY: return FingerType.Pinky;
+            case TYPE_THUMB:
+                return FingerType.Thumb;
+            case TYPE_INDEX:
+                return FingerType.Index;
+            case TYPE_MIDDLE:
+                return FingerType.Middle;
+            case TYPE_RING:
+                return FingerType.Ring;
+            case TYPE_PINKY:
+                return FingerType.Pinky;
         }
 
         return FingerType.Index;
@@ -184,11 +234,16 @@ class WorkerListener extends Listener {
 
     private String getStringFingerType(Finger.Type type) {
         switch (type) {
-            case TYPE_THUMB: return FingerType.Thumb.name();
-            case TYPE_INDEX: return FingerType.Index.name();
-            case TYPE_MIDDLE: return FingerType.Middle.name();
-            case TYPE_RING: return FingerType.Ring.name();
-            case TYPE_PINKY: return FingerType.Pinky.name();
+            case TYPE_THUMB:
+                return FingerType.Thumb.name();
+            case TYPE_INDEX:
+                return FingerType.Index.name();
+            case TYPE_MIDDLE:
+                return FingerType.Middle.name();
+            case TYPE_RING:
+                return FingerType.Ring.name();
+            case TYPE_PINKY:
+                return FingerType.Pinky.name();
         }
 
         return FingerType.Index.name();

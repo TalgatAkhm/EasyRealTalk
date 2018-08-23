@@ -12,7 +12,7 @@ public class MotionVector {
 
     private Hand leftHand;
 
-    private List<List<Integer>> touchList;
+    private List<List<Double>> touchList;
 
     private List<Finger> leftFingersList;
 
@@ -42,11 +42,11 @@ public class MotionVector {
         this.leftHand = leftHand;
     }
 
-    public List<List<Integer>> getTouchList() {
+    public List<List<Double>> getTouchList() {
         return touchList;
     }
 
-    public void setTouchList(List<List<Integer>> touchList) {
+    public void setTouchList(List<List<Double>> touchList) {
         this.touchList = touchList;
     }
 

@@ -1,5 +1,6 @@
 package ru.mtl.VoidVoice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.leapmotion.leap.Vector;
 import net.sf.autodao.PersistentEntity;
 import org.jetbrains.annotations.NotNull;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 public class Vector3d implements PersistentEntity<Long>, Comparable<Vector3d> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
     private long id;
 
     private double x;
@@ -21,6 +23,7 @@ public class Vector3d implements PersistentEntity<Long>, Comparable<Vector3d> {
     public Vector3d() {
     }
 
+    @JsonIgnore
     public Long getPrimaryKey() {
         return this.id;
     }
@@ -120,6 +123,7 @@ public class Vector3d implements PersistentEntity<Long>, Comparable<Vector3d> {
         return Math.acos(cos);
     }
 
+    @JsonIgnore
     public ArrayList<Double> getCoordinatesList() {
         ArrayList<Double> arrayList = new ArrayList<>();
         arrayList.add(this.x);

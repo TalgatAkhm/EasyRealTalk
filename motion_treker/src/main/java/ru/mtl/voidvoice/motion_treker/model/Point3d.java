@@ -1,10 +1,12 @@
 package ru.mtl.voidvoice.motion_treker.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.leapmotion.leap.Vector;
 
 public class Point3d {
     private final static double TOLERANCE_DISTANCE = 10.0;
 
+    @JsonIgnore
     private long id;
 
     private double x;
@@ -24,12 +26,6 @@ public class Point3d {
         y = v.getY();
         z = v.getZ();
     }
-
-
-    public Long getPrimaryKey(){
-        return this.id;
-    }
-
 
     public double getX() {
         return x;

@@ -10,11 +10,24 @@
 
     <logger name="ru.mtl.VoidVoice" level="DEBUG" />
 
+    <logger name="ru.mtl.VoidVoice.tree.GestureDefiner" level="DEBUG" />
+
+    <turboFilter class="ch.qos.logback.classic.turbo.MarkerFilter">
+        <Name>ITERATOR_FILTER</Name>
+        <Marker>ITERATOR_MARKER</Marker>
+        <OnMatch>ACCEPT</OnMatch>
+    </turboFilter>
+
+    <turboFilter class="ch.qos.logback.classic.turbo.MarkerFilter">
+        <Name>EXTEND_INFO_FILTER</Name>
+        <Marker>EXTEND_INFO</Marker>
+        <OnMatch>ACCEPT</OnMatch>
+    </turboFilter>
+
+
     <root level="INFO">
         <appender-ref ref="STDOUT" />
     </root>
-
-    <logger name="com.googlecode.flyway" level="DEBUG"/>
 
     <!--<logger name="org.hibernate" level="DEBUG"/>-->
     <!--<logger name="org.hibernate.SQL" level="DEBUG"/>-->

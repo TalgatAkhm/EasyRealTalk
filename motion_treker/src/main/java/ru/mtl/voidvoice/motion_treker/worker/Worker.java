@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 
 public class Worker implements NativeKeyListener {
     public final static String FOLDER_LOCATION =
-            "C:\\EasyRealTalk\\motion_treker\\src\\main\\resources\\button_result";
+            "/Users/mac/projects/SignLanguageLeapMotion/EasyRealTalk/motion_treker/src/main/resources/button_result";
 
     private Controller controller;
 
@@ -27,8 +27,6 @@ public class Worker implements NativeKeyListener {
     private PrintWriter printWriter;
 
     private ObjectMapper objectMapper;
-    private ObjectMapper avgObjectMapper;
-    private int numFrames = 0;
 
     public Worker() {
         Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
@@ -44,7 +42,6 @@ public class Worker implements NativeKeyListener {
         controller.addListener(workerListener);
 
         objectMapper = new ObjectMapper();
-        avgObjectMapper = new ObjectMapper();
     }
 
     public void run() {
@@ -96,63 +93,16 @@ public class Worker implements NativeKeyListener {
 //            printWriter.flush();
 
             MotionVector motionVector = workerListener.getMotionVector();
-            ++numFrames;
-            if(numFrames == 2) {
-                MotionVector avg = workerListener.getAvg();
-                try {
-                    String jsonAvg = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(avg);
-                    // printWriter.print(jsonAvg);
-                    // printWriter.print(",\n");
-                    // printWriter.flush();
-                    System.out.println(jsonAvg);
-                }
-                catch (Exception ex){
-                    ex.printStackTrace();
-                }
-            }
             try {
                 String json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(motionVector);
                 printWriter.print(json);
                 printWriter.print(",\n");
                 printWriter.flush();
-               // System.out.println(json);
-
-
-                System.out.println();
-                System.out.println("---//////////////---///////////////////////---/////////////////---//AVG");
-               // printWriter.print(",\n");
-               // printWriter.print(",\n");
-               // printWriter.print(",\n");
-               // printWriter.print("---//////////////---///////////////////////---/////////////////---//AVG");
-               // printWriter.print(",\n");
-               // printWriter.print(",\n");
-               // printWriter.print(",\n");
-               // printWriter.print(",\n");
-
-                /*String jsonAvg = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(avg);
-               // printWriter.print(jsonAvg);
-               // printWriter.print(",\n");
-               // printWriter.flush();
-                System.out.println(jsonAvg);*/
+                System.out.println(json);
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
-            }/*
-            ++numNativeKeyPressed;
-            if(numNativeKeyPressed == 2) {
-                MotionVector avg = workerListener.getAvg();
-                try {
-                    System.out.println();
-                    System.out.println("---//////////////---///////////////////////---/////////////////---//AVG");
-                    String jsonAvg = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(avg);
-                    printWriter.print(json);
-                    printWriter.print(",\n");
-                    printWriter.flush();
-                    System.out.println(json);
-                } catch (JsonProcessingException e) {
-                    e.printStackTrace();
-                }
+            }
 
-            }*/
         }
     }
 

@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseHelper {
-    private static final String FOLDER_LOCATION =
-            "/Users/aleksejfilippov/Desktop/java projects/metrpro/EasyRealTalk/src/main/resources";
+    private static String FOLDER_LOCATION =
+            "/Users/mac/projects/SignLanguageLeapMotion/EasyRealTalk/motion_treker/src/main/resources/button_result/";
 
     private GestureDao gestureDao;
 

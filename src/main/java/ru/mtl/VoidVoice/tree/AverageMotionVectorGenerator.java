@@ -4,10 +4,12 @@ import com.leapmotion.leap.*;
 import com.leapmotion.leap.Finger;
 import com.leapmotion.leap.Hand;
 import ru.mtl.VoidVoice.model.*;
+import ru.mtl.VoidVoice.utils.MotionVectorTouchesConverter;
 import ru.mtl.VoidVoice.worker.Presenter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class AverageMotionVectorGenerator {
 
@@ -97,17 +99,21 @@ public class AverageMotionVectorGenerator {
         rightThumbPos = new Vector(0, 0, 0);
     }
 
+    ReentrantLock lock = new ReentrantLock();
+
     public void addFrame(Frame frame) {
+        lock.lock();
         frames.add(frame);
         ++frames_number;
-        if(frames_number == AVERAGE_FRAME_NUMBER){
-            frames_number = 0;
+        if (frames_number >= AVERAGE_FRAME_NUMBER) {
             resMotionVector = generate();
+            frames_number = 0;
             initNumbers();
             initVectors();
             frames = new ArrayList<>();
             presenter.motionVectorHandler(resMotionVector);
         }
+        lock.unlock();
     }
 
     public AverageMotionVectorGenerator(Presenter presenter) {
@@ -174,26 +180,14 @@ public class AverageMotionVectorGenerator {
         res.setLeftHand(leftHand);
         res.setRightHand(rightHand);
 
-        List<Vector> touch = new ArrayList<>();
-        touch.add(leftPinkyPos);
-        touch.add(leftRingPos);
-        touch.add(leftMiddlePos);
-        touch.add(leftIndexPos);
-        touch.add(leftThumbPos);
-
-        touch.add(rightPinkyPos);
-        touch.add(rightRingPos);
-        touch.add(rightMiddlePos);
-        touch.add(rightIndexPos);
-        touch.add(rightThumbPos);
-        TouchChecker checker = new TouchChecker(touch);
-        res.setTouchList(checker.check());
-
         res.setLeftFingersList(generateLeftFingerList());
         res.setRightFingersList(generateRightFingerList());
 
+        res.setTouchList(MotionVectorTouchesConverter.createTouchList(resMotionVector));
+
         res.setLeftHandMotion(null);
         res.setRightHandMotion(null);
+        resMotionVector = res;
         return res;
     }
 

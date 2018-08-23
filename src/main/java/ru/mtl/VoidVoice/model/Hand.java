@@ -1,5 +1,6 @@
 package ru.mtl.VoidVoice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import net.sf.autodao.PersistentEntity;
 import ru.mtl.VoidVoice.comparator.Comparable;
 
@@ -14,6 +15,7 @@ import javax.persistence.OneToOne;
 public class Hand implements PersistentEntity<Long>, Comparable<Hand> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
     private long id;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -25,13 +27,14 @@ public class Hand implements PersistentEntity<Long>, Comparable<Hand> {
     @OneToOne(cascade = CascadeType.ALL)
     private Vector3d palmVelocity;
 
-    private float confidence;//
+    private float confidence;
 
 
     public Hand() {
 
     }
 
+    @JsonIgnore
     public Long getPrimaryKey(){
         return this.id;
     }

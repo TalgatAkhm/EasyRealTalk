@@ -1,11 +1,13 @@
 package ru.mtl.voidvoice.motion_treker.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.leapmotion.leap.Vector;
 import ru.mtl.voidvoice.motion_treker.model.FingerType;
 import ru.mtl.voidvoice.motion_treker.model.Point3d;
 import ru.mtl.voidvoice.motion_treker.model.Vector3d;
 
 public class Finger {
+    @JsonIgnore
     private long id;
 
     private FingerType fingerType;
@@ -33,6 +35,7 @@ public class Finger {
     }
 
 
+    @JsonIgnore
     public Long getPrimaryKey(){
         return this.id;
     }

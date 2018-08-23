@@ -1,8 +1,11 @@
 package ru.mtl.voidvoice.motion_treker.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 
 public class Gesture {
+    @JsonIgnore
     private long id;
 
     private List<KeyPoint> keyPointList;
@@ -13,6 +16,7 @@ public class Gesture {
 
     }
 
+    @JsonIgnore
     public Long getPrimaryKey(){
         return this.id;
     }

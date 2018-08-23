@@ -1,5 +1,6 @@
 package ru.mtl.VoidVoice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import net.sf.autodao.PersistentEntity;
 import ru.mtl.VoidVoice.comparator.Comparable;
 
@@ -15,7 +16,7 @@ import javax.persistence.Id;
 public class Motion implements PersistentEntity<Long>, Comparable<Motion> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column
+    @JsonIgnore
     private long id;
 
     @Enumerated(EnumType.STRING)
@@ -24,6 +25,7 @@ public class Motion implements PersistentEntity<Long>, Comparable<Motion> {
     public Motion() {
     }
 
+    @JsonIgnore
     public Long getPrimaryKey(){
         return this.id;
     }

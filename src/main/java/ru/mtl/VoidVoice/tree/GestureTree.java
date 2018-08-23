@@ -1,5 +1,9 @@
 package ru.mtl.VoidVoice.tree;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Marker;
+import org.slf4j.MarkerFactory;
 import ru.mtl.VoidVoice.dao.GestureDao;
 import ru.mtl.VoidVoice.model.Gesture;
 import ru.mtl.VoidVoice.model.KeyPoint;
@@ -9,6 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 final public class GestureTree {
+    private static final Logger LOG = LoggerFactory.getLogger(GestureTree.class);
+    private static final Marker EXTEND_INFO_MARKER = MarkerFactory.getMarker("EXTEND_INFO_MARKER");
+
     private static List<List<KeyPoint>> tree;
 
     private GestureDao gestureDao;
@@ -16,6 +23,7 @@ final public class GestureTree {
     public GestureTree() {
         gestureDao = ApplicationContextHolder.getApplicationContext().getBean(GestureDao.class);
         generate();
+        LOG.debug(EXTEND_INFO_MARKER, drawTree());
     }
 
     private void generate() {
@@ -43,7 +51,38 @@ final public class GestureTree {
         }
     }
 
-    public static List<List<KeyPoint>> getTree() {
+    public List<List<KeyPoint>> getTree() {
         return tree;
+    }
+
+    public List<KeyPoint> getKeyPointsAtLayer(int layerNumber) {
+        return tree.get(layerNumber);
+    }
+
+    public String drawTree() {
+        StringBuilder builder = new StringBuilder("Gestures: ");
+        List<Gesture> gestures = gestureDao.getAll();
+
+        for (Gesture gesture : gestures) {
+            builder.append(gesture.getMeaning()).append(" ");
+        }
+
+        builder.append("\n");
+
+        int layer = 1;
+        for (List<KeyPoint> layerList : tree) {
+            builder.append("Layer ").append(layer).append(": ");
+            for (KeyPoint keyPoint : layerList) {
+                builder.append(keyPoint.getPrimaryKey()).append(" ");
+            }
+            builder.append("\n");
+            layer++;
+        }
+
+        return builder.toString();
+    }
+
+    public int size() {
+        return tree.size();
     }
 }

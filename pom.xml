@@ -274,6 +274,24 @@
                 <plugins>
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>properties-maven-plugin</artifactId>
+                        <version>1.0.0</version>
+                        <executions>
+                            <execution>
+                                <phase>initialize</phase>
+                                <goals>
+                                    <goal>read-project-properties</goal>
+                                </goals>
+                                <configuration>
+                                    <files>
+                                        <file>${pom.basedir}/src/main/resources/gestureTree.properties</file>
+                                    </files>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
                         <artifactId>exec-maven-plugin</artifactId>
                         <version>1.2.1</version>
                         <configuration>
@@ -301,6 +319,24 @@
                 <plugins>
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>properties-maven-plugin</artifactId>
+                        <version>1.0.0</version>
+                        <executions>
+                            <execution>
+                                <phase>initialize</phase>
+                                <goals>
+                                    <goal>read-project-properties</goal>
+                                </goals>
+                                <configuration>
+                                    <files>
+                                        <file>${pom.basedir}/src/main/resources/gestureTree.properties</file>
+                                    </files>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
                         <artifactId>exec-maven-plugin</artifactId>
                         <version>1.2.1</version>
                         <configuration>
@@ -310,6 +346,8 @@
                                 <argument>-classpath</argument>
                                 <classpath />
                                 <argument>ru.mtl.VoidVoice.MainApplication</argument>
+                                <argument>${tree.jsonLocation}</argument>
+                                <argument>${tree.jsonFileName}</argument>
                             </arguments>
                         </configuration>
                     </plugin>

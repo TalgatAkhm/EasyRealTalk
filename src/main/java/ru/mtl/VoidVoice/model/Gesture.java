@@ -1,5 +1,6 @@
 package ru.mtl.VoidVoice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import net.sf.autodao.PersistentEntity;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import java.util.List;
 public class Gesture implements PersistentEntity<Long> {
     @Id
     @GeneratedValue (strategy = GenerationType.AUTO)
+    @JsonIgnore
     private long id;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -21,6 +23,7 @@ public class Gesture implements PersistentEntity<Long> {
 
     }
 
+    @JsonIgnore
     public Long getPrimaryKey(){
         return this.id;
     }

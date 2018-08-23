@@ -1,5 +1,6 @@
 package ru.mtl.VoidVoice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.leapmotion.leap.Vector;
 import net.sf.autodao.PersistentEntity;
 import ru.mtl.VoidVoice.comparator.Comparable;
@@ -13,6 +14,7 @@ public class Point3d implements PersistentEntity<Long>, Comparable<Point3d> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
     private long id;
 
     private double x;
@@ -33,11 +35,10 @@ public class Point3d implements PersistentEntity<Long>, Comparable<Point3d> {
         z = v.getZ();
     }
 
-
+    @JsonIgnore
     public Long getPrimaryKey(){
         return this.id;
     }
-
 
     public double getX() {
         return x;

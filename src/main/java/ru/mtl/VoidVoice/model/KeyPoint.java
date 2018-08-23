@@ -1,5 +1,6 @@
 package ru.mtl.VoidVoice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import net.sf.autodao.PersistentEntity;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import ru.mtl.VoidVoice.comparator.Comparable;
 public class KeyPoint implements PersistentEntity<Long>, Comparable<KeyPoint> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
     private long id;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -37,6 +39,7 @@ public class KeyPoint implements PersistentEntity<Long>, Comparable<KeyPoint> {
     }
 
     @Override
+    @JsonIgnore
     public Long getPrimaryKey() {
         return this.id;
     }

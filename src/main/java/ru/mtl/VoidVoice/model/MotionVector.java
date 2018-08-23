@@ -1,5 +1,6 @@
 package ru.mtl.VoidVoice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import net.sf.autodao.PersistentEntity;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -14,6 +15,7 @@ import javax.persistence.*;
 public class MotionVector implements PersistentEntity<Long>, Comparable<MotionVector> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
     private long id;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -23,7 +25,7 @@ public class MotionVector implements PersistentEntity<Long>, Comparable<MotionVe
     private Hand leftHand;
 
     @Convert(converter = MotionVectorTouchesConverter.class)
-    private List<List<Integer>> touchList;//
+    private List<List<Double>> touchList;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(columnDefinition = "integer")
@@ -36,11 +38,12 @@ public class MotionVector implements PersistentEntity<Long>, Comparable<MotionVe
     private List<Finger> rightFingersList;
 
     @OneToOne(cascade = CascadeType.ALL)
-    private Motion leftHandMotion;//
+    private Motion leftHandMotion;
 
     @OneToOne(cascade = CascadeType.ALL)
-    private Motion rightHandMotion;//
+    private Motion rightHandMotion;
 
+    @JsonIgnore
     public Long getPrimaryKey(){
         return this.id;
     }
@@ -65,11 +68,11 @@ public class MotionVector implements PersistentEntity<Long>, Comparable<MotionVe
         this.leftHand = leftHand;
     }
 
-    public List<List<Integer>> getTouchList() {
+    public List<List<Double>> getTouchList() {
         return touchList;
     }
 
-    public void setTouchList(List<List<Integer>> touchList) {
+    public void setTouchList(List<List<Double>> touchList) {
         this.touchList = touchList;
     }
 
@@ -128,7 +131,7 @@ public class MotionVector implements PersistentEntity<Long>, Comparable<MotionVe
 
     // method returns the end double value from 0. to 1. the measure of similarity
     // of the two MotionVectors
-    private double isSimilar(double rightHandSimilarity, double leftHandSimilarity, List<Double> rightFingersSimilarity, List<Double> leftFingersSimilarity, double rightMotionSimilarity, double leftMotionSimilarity, List<List<Integer>> touchList) {
+    private double isSimilar(double rightHandSimilarity, double leftHandSimilarity, List<Double> rightFingersSimilarity, List<Double> leftFingersSimilarity, double rightMotionSimilarity, double leftMotionSimilarity, List<List<Double>> touchList) {
         return rightHandSimilarity * leftHandSimilarity;
     }
 

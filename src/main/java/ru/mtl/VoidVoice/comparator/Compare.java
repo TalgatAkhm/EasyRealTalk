@@ -1,8 +1,5 @@
 package ru.mtl.VoidVoice.comparator;
 
-import ru.mtl.VoidVoice.model.KeyPoint;
-import ru.mtl.VoidVoice.model.ValuableObject;
-
 /**
  * Class which contains method to
  * compare two ValuableObjects (MotionVector or Motion).

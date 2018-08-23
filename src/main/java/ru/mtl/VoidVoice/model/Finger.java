@@ -1,5 +1,6 @@
 package ru.mtl.VoidVoice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.leapmotion.leap.Vector;
 import net.sf.autodao.PersistentEntity;
 import ru.mtl.VoidVoice.comparator.Comparable;
@@ -18,6 +19,7 @@ import javax.persistence.OneToOne;
 public class Finger implements PersistentEntity<Long>, Comparable<Finger> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
     private long id;
 
     @Enumerated(EnumType.STRING)
@@ -26,10 +28,10 @@ public class Finger implements PersistentEntity<Long>, Comparable<Finger> {
     @OneToOne(cascade = CascadeType.ALL)
     private Vector3d fingerDirectionVector;
 
-    private double fingerCurvature;//
+    private double fingerCurvature;
 
     @OneToOne(cascade = CascadeType.ALL)
-    private Point3d fingerTipPosition;//
+    private Point3d fingerTipPosition;
 
     public Finger(){
 
@@ -47,7 +49,7 @@ public class Finger implements PersistentEntity<Long>, Comparable<Finger> {
         setCurvature(palmNormal, fingerDirectionVector);
     }
 
-
+    @JsonIgnore
     public Long getPrimaryKey(){
         return this.id;
     }
@@ -113,17 +115,18 @@ public class Finger implements PersistentEntity<Long>, Comparable<Finger> {
         return fingerDirectionSimilarity * fingerTipSimilarity;
     }
 
+    @JsonIgnore
     public Double getFingerNum() {
         if (this.fingerType.equals(FingerType.Pinky)) {
-            return 1.d;
+            return 5.d;
         } else if (this.fingerType.equals(FingerType.Ring)) {
-            return 2.d;
+            return 4.d;
         } else if (this.fingerType.equals(FingerType.Middle)){
             return 3.d;
         } else if (this.fingerType.equals(FingerType.Index)){
-            return 4.d;
+            return 2.d;
         } else if(this.fingerType.equals(FingerType.Thumb)){
-            return 5.d;
+            return 1.d;
         } else return 0.d;
     }
 }

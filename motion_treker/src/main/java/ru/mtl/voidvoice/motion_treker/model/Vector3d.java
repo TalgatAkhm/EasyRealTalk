@@ -1,5 +1,6 @@
 package ru.mtl.voidvoice.motion_treker.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.leapmotion.leap.Vector;
 // import net.sf.autodao.PersistentEntity;
 //import org.jetbrains.annotations.NotNull;
@@ -9,6 +10,7 @@ import com.leapmotion.leap.Vector;
 import java.util.ArrayList;
 
 public class Vector3d {
+    @JsonIgnore
     private long id;
 
     private double x;
@@ -16,10 +18,6 @@ public class Vector3d {
     private double z;
 
     public Vector3d() {
-    }
-
-    public Long getPrimaryKey() {
-        return this.id;
     }
 
     public Vector3d(double x, double y, double z) {
@@ -117,6 +115,7 @@ public class Vector3d {
         return Math.acos(cos);
     }
 
+    @JsonIgnore
     public ArrayList<Double> getCoordinatesList() {
         ArrayList<Double> arrayList = new ArrayList<>();
         arrayList.add(this.x);
