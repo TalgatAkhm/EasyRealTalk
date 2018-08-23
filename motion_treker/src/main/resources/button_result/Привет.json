@@ -1,0 +1,305 @@
+[
+{
+  "rightHand" : {
+    "palmNormalVector" : {
+      "x" : -0.06693147122859955,
+      "y" : -0.9942201972007751,
+      "z" : -0.08394274115562439
+    },
+    "palmDirectionVector" : {
+      "x" : -0.06693147122859955,
+      "y" : -0.9942201972007751,
+      "z" : -0.08394274115562439
+    },
+    "palmVelocity" : {
+      "x" : 1.5034406185150146,
+      "y" : -0.7524541020393372,
+      "z" : 1.518559455871582
+    },
+    "confidence" : 0.9308919
+  },
+  "leftHand" : {
+    "palmNormalVector" : null,
+    "palmDirectionVector" : null,
+    "palmVelocity" : null,
+    "confidence" : 0.0
+  },
+  "touchList" : null,
+  "leftFingersList" : null,
+  "rightFingersList" : [ {
+    "fingerType" : "Thumb",
+    "fingerDirectionVector" : {
+      "x" : -0.9209245443344116,
+      "y" : 9.45302308537066E-4,
+      "z" : -0.38973984122276306
+    },
+    "fingerCurvature" : 0.0,
+    "fingerTipPosition" : {
+      "x" : -49.161834716796875,
+      "y" : 128.83778381347656,
+      "z" : 41.07609939575195
+    },
+    "fingerNum" : 5.0
+  }, {
+    "fingerType" : "Index",
+    "fingerDirectionVector" : {
+      "x" : -0.46836021542549133,
+      "y" : -0.06625977903604507,
+      "z" : -0.8810495734214783
+    },
+    "fingerCurvature" : 0.0,
+    "fingerTipPosition" : {
+      "x" : -39.98516845703125,
+      "y" : 137.55906677246094,
+      "z" : -51.61433792114258
+    },
+    "fingerNum" : 4.0
+  }, {
+    "fingerType" : "Middle",
+    "fingerDirectionVector" : {
+      "x" : -0.46299365162849426,
+      "y" : -0.04578021541237831,
+      "z" : -0.8851785659790039
+    },
+    "fingerCurvature" : 0.0,
+    "fingerTipPosition" : {
+      "x" : -27.856979370117188,
+      "y" : 140.2605743408203,
+      "z" : -70.7396011352539
+    },
+    "fingerNum" : 3.0
+  }, {
+    "fingerType" : "Ring",
+    "fingerDirectionVector" : {
+      "x" : -0.5170779228210449,
+      "y" : -0.02700296975672245,
+      "z" : -0.855512261390686
+    },
+    "fingerCurvature" : 0.0,
+    "fingerTipPosition" : {
+      "x" : -11.152215957641602,
+      "y" : 140.94644165039062,
+      "z" : -70.9909896850586
+    },
+    "fingerNum" : 2.0
+  }, {
+    "fingerType" : "Pinky",
+    "fingerDirectionVector" : {
+      "x" : -0.5246437788009644,
+      "y" : 0.05027744174003601,
+      "z" : -0.8498359322547913
+    },
+    "fingerCurvature" : 0.0,
+    "fingerTipPosition" : {
+      "x" : 14.801032066345215,
+      "y" : 141.34268188476562,
+      "z" : -60.54194259643555
+    },
+    "fingerNum" : 1.0
+  } ],
+  "leftHandMotion" : null,
+  "rightHandMotion" : null
+},
+{
+  "rightHand" : {
+    "palmNormalVector" : {
+      "x" : -0.06111433357000351,
+      "y" : -0.9967719316482544,
+      "z" : -0.05206530541181564
+    },
+    "palmDirectionVector" : {
+      "x" : -0.06111433357000351,
+      "y" : -0.9967719316482544,
+      "z" : -0.05206530541181564
+    },
+    "palmVelocity" : {
+      "x" : -0.24604173004627228,
+      "y" : -0.5155766010284424,
+      "z" : -0.11090394109487534
+    },
+    "confidence" : 0.939831
+  },
+  "leftHand" : {
+    "palmNormalVector" : null,
+    "palmDirectionVector" : null,
+    "palmVelocity" : null,
+    "confidence" : 0.0
+  },
+  "touchList" : null,
+  "leftFingersList" : null,
+  "rightFingersList" : [ {
+    "fingerType" : "Thumb",
+    "fingerDirectionVector" : {
+      "x" : -0.9227431416511536,
+      "y" : -0.035364676266908646,
+      "z" : -0.38378962874412537
+    },
+    "fingerCurvature" : 0.0,
+    "fingerTipPosition" : {
+      "x" : -49.78053665161133,
+      "y" : 127.98367309570312,
+      "z" : 42.483848571777344
+    },
+    "fingerNum" : 5.0
+  }, {
+    "fingerType" : "Index",
+    "fingerDirectionVector" : {
+      "x" : -0.4473305344581604,
+      "y" : -0.057471293956041336,
+      "z" : -0.8925203084945679
+    },
+    "fingerCurvature" : 0.0,
+    "fingerTipPosition" : {
+      "x" : -38.688655853271484,
+      "y" : 137.84207153320312,
+      "z" : -51.63340377807617
+    },
+    "fingerNum" : 4.0
+  }, {
+    "fingerType" : "Middle",
+    "fingerDirectionVector" : {
+      "x" : -0.46755269169807434,
+      "y" : -0.037441179156303406,
+      "z" : -0.8831719160079956
+    },
+    "fingerCurvature" : 0.0,
+    "fingerTipPosition" : {
+      "x" : -27.99547576904297,
+      "y" : 140.36346435546875,
+      "z" : -69.78877258300781
+    },
+    "fingerNum" : 3.0
+  }, {
+    "fingerType" : "Ring",
+    "fingerDirectionVector" : {
+      "x" : -0.5234272480010986,
+      "y" : -0.02127400040626526,
+      "z" : -0.8518047332763672
+    },
+    "fingerCurvature" : 0.0,
+    "fingerTipPosition" : {
+      "x" : -11.388162612915039,
+      "y" : 140.82589721679688,
+      "z" : -69.64044952392578
+    },
+    "fingerNum" : 2.0
+  }, {
+    "fingerType" : "Pinky",
+    "fingerDirectionVector" : {
+      "x" : -0.531610369682312,
+      "y" : 0.05582688748836517,
+      "z" : -0.8451471924781799
+    },
+    "fingerCurvature" : 0.0,
+    "fingerTipPosition" : {
+      "x" : 14.758234977722168,
+      "y" : 140.92086791992188,
+      "z" : -58.8558464050293
+    },
+    "fingerNum" : 1.0
+  } ],
+  "leftHandMotion" : null,
+  "rightHandMotion" : null
+},
+{
+  "rightHand" : {
+    "palmNormalVector" : null,
+    "palmDirectionVector" : null,
+    "palmVelocity" : null,
+    "confidence" : 0.0
+  },
+  "leftHand" : {
+    "palmNormalVector" : {
+      "x" : 0.03105349838733673,
+      "y" : 0.9937378764152527,
+      "z" : 0.10733465850353241
+    },
+    "palmDirectionVector" : {
+      "x" : 0.03105349838733673,
+      "y" : 0.9937378764152527,
+      "z" : 0.10733465850353241
+    },
+    "palmVelocity" : {
+      "x" : 0.013883767649531364,
+      "y" : -3.0627808570861816,
+      "z" : -2.547041893005371
+    },
+    "confidence" : 0.897919
+  },
+  "touchList" : null,
+  "leftFingersList" : [ {
+    "fingerType" : "Thumb",
+    "fingerDirectionVector" : {
+      "x" : -0.8857399225234985,
+      "y" : 0.11594667285680771,
+      "z" : -0.4494676887989044
+    },
+    "fingerCurvature" : 0.0,
+    "fingerTipPosition" : {
+      "x" : -71.94070434570312,
+      "y" : 132.3938446044922,
+      "z" : 38.79020690917969
+    },
+    "fingerNum" : 5.0
+  }, {
+    "fingerType" : "Index",
+    "fingerDirectionVector" : {
+      "x" : -0.3596964478492737,
+      "y" : 0.0636504739522934,
+      "z" : -0.9308958649635315
+    },
+    "fingerCurvature" : 0.0,
+    "fingerTipPosition" : {
+      "x" : -50.038387298583984,
+      "y" : 131.95053100585938,
+      "z" : -61.632259368896484
+    },
+    "fingerNum" : 4.0
+  }, {
+    "fingerType" : "Middle",
+    "fingerDirectionVector" : {
+      "x" : -0.3338983356952667,
+      "y" : 0.12029480189085007,
+      "z" : -0.9349016547203064
+    },
+    "fingerCurvature" : 0.0,
+    "fingerTipPosition" : {
+      "x" : -33.31515121459961,
+      "y" : 135.03392028808594,
+      "z" : -80.73489379882812
+    },
+    "fingerNum" : 3.0
+  }, {
+    "fingerType" : "Ring",
+    "fingerDirectionVector" : {
+      "x" : -0.29569727182388306,
+      "y" : 0.1799403876066208,
+      "z" : -0.9381815195083618
+    },
+    "fingerCurvature" : 0.0,
+    "fingerTipPosition" : {
+      "x" : -8.099061965942383,
+      "y" : 138.53292846679688,
+      "z" : -81.21818542480469
+    },
+    "fingerNum" : 2.0
+  }, {
+    "fingerType" : "Pinky",
+    "fingerDirectionVector" : {
+      "x" : -0.45864078402519226,
+      "y" : 0.1297396421432495,
+      "z" : -0.8790996670722961
+    },
+    "fingerCurvature" : 0.0,
+    "fingerTipPosition" : {
+      "x" : 5.981268405914307,
+      "y" : 136.1021270751953,
+      "z" : -62.595375061035156
+    },
+    "fingerNum" : 1.0
+  } ],
+  "rightFingersList" : null,
+  "leftHandMotion" : null,
+  "rightHandMotion" : null
+}
+]
