@@ -74,6 +74,7 @@ public class MainVectorTree {
 //    }
 
     public List<Integer> getNearestIndexesInLayer(MainVector mainVector, int layerIndex) {
+        //TODO::check if mainvectortree is not zero
         return Metrics.getNearestVectors(mainVectorLayersList.get(layerIndex), mainVector, countOfVectors);
     }
 

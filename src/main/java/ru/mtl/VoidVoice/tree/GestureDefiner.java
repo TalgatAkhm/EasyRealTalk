@@ -92,15 +92,23 @@ public class GestureDefiner implements Presenter {
 
                 if (motionVector != null && currentLayer == 0) {
                     LOG.debug(ITERATOR_MARKER, "Current layer: "+currentLayer);
-                    candidatesIndexes = mainVectorTree.getNearestIndexesInLayer(new MainVector(motionVector), currentLayer);
-                    LOG.debug(ITERATOR_MARKER, "Nearest KeyPoint's indexes: "+ candidatesIndexes);
+                    try {
+                        candidatesIndexes = mainVectorTree.getNearestIndexesInLayer(new MainVector(motionVector), currentLayer);
+                        LOG.debug(ITERATOR_MARKER, "Nearest KeyPoint's indexes: " + candidatesIndexes);
+                    } catch (IllegalArgumentException e) {
+                        continue;
+                    }
                 } else if (candidatesIndexes != null && candidatesIndexes.size() > 1 && gestureTree.size() - 1 > currentLayer) {
                     List<MotionVector> childMotionVectorList = new ArrayList<>();
                     for (Integer index : candidatesIndexes) {
                         childMotionVectorList.add(gestureTree.getKeyPointsAtLayer(currentLayer).get(index).getBaseVector());
                     }
-                    candidatesIndexes = mainVectorTree.getNearestIndexesInList(new MainVector(motionVector), childMotionVectorList);
-                    LOG.debug(ITERATOR_MARKER, "Nearest KeyPoint's indexes: "+ candidatesIndexes);
+                    try {
+                        candidatesIndexes = mainVectorTree.getNearestIndexesInList(new MainVector(motionVector), childMotionVectorList);
+                        LOG.debug(ITERATOR_MARKER, "Nearest KeyPoint's indexes: " + candidatesIndexes);
+                    } catch (IllegalArgumentException e) {
+                        continue;
+                    }
                 } else if (candidatesIndexes != null && !candidatesIndexes.isEmpty()) {
                     int index = 0;
 

@@ -29,11 +29,11 @@ public class MainVector {
 
     private List<List<Double>> touchList;
 
-    public MainVector(MotionVector motionVector) {
+    public MainVector(MotionVector motionVector) throws IllegalArgumentException {
 
-        if (motionVector.getLeftFingersList().isEmpty() && motionVector.getRightFingersList().isEmpty()) {
+        if ((motionVector.getLeftFingersList() == null && motionVector.getRightFingersList() == null)) {
             throw new IllegalArgumentException("Both finger lists are empty");
-        } else if (motionVector.getLeftFingersList().isEmpty()) {
+        } else if (motionVector.getRightFingersList() != null && motionVector.getLeftFingersList() == null) {
             mainVectorType = MainVectorType.OnlyRightHand;
 
             rightHandVecor = new ArrayList<>();
@@ -66,7 +66,7 @@ public class MainVector {
             this.rightHand = motionVector.getRightHand();
             this.rightFingerList = motionVector.getRightFingersList();
             this.touchList = motionVector.getTouchList();
-        } else if (motionVector.getRightFingersList().isEmpty()) {
+        } else if (motionVector.getLeftFingersList() != null && motionVector.getRightFingersList() == null) {
             mainVectorType = MainVectorType.OnlyLeftHand;
 
             leftHandVecor = new ArrayList<>();

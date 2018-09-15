@@ -67,7 +67,7 @@ public class MotionVectorTouchesConverter implements AttributeConverter<List<Lis
         return null;
     }
 
-    public static List<List<Double>> createTouchList(MotionVector motionVector) {
+    public static List<List<Double>> createTouchList(MotionVector motionVector) throws IllegalArgumentException {
         List<List<Double>> layerList = new ArrayList<>();
         //в случае одной руки layerList содержит 5 элементов(touchList). Первый layer содержит один элемент(соприкосновение 1го и 1го пальцев(Pinky)),
         // второй - два эл-та соприкосновения 2го пальца с 1ым и 2ым, и так еще три слоя.
@@ -76,9 +76,9 @@ public class MotionVectorTouchesConverter implements AttributeConverter<List<Lis
             return layerList;
         }
 
-        if (motionVector.getLeftFingersList().isEmpty() && motionVector.getRightFingersList().isEmpty()) {
+        if ((motionVector.getRightFingersList() == null && motionVector.getLeftFingersList() == null)) {
             throw new IllegalArgumentException("somehow MotionLeap has sent frame without hands");
-        } else if (motionVector.getLeftFingersList().isEmpty()) {
+        } else if (motionVector.getRightFingersList() != null && motionVector.getLeftFingersList() == null) {
             for (int i = 0; i < motionVector.getRightFingersList().size(); i++) {
                 List<Double> touchList = new ArrayList<>();
                 for (int j = 0; j < i + 1; j++) {
@@ -86,7 +86,7 @@ public class MotionVectorTouchesConverter implements AttributeConverter<List<Lis
                 }
                 layerList.add(touchList);
             }
-        } else if (motionVector.getRightFingersList().isEmpty()) {
+        } else if (motionVector.getLeftFingersList() != null && motionVector.getRightFingersList() == null) {
             for (int i = 0; i < motionVector.getRightFingersList().size(); i++) {
                 List<Double> touchList = new ArrayList<>();
                 for (int j = 0; j < i + 1; j++) {

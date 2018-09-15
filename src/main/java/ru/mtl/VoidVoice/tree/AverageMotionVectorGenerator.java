@@ -56,7 +56,18 @@ public class AverageMotionVectorGenerator {
     private Vector rightIndexPos;
     private Vector rightThumbPos;
 
-    private void initNumbers(){
+    private ReentrantLock lock;
+
+    public AverageMotionVectorGenerator(Presenter presenter) {
+        frames = new ArrayList<>();
+        frames_number = 0;
+        initNumbers();
+        initVectors();
+        lock = new ReentrantLock();
+        this.presenter = presenter;
+    }
+
+    private void initNumbers() {
         frames_number = 0;
         leftHandsNumber = 0;
         rightHandsNumber = 0;
@@ -99,14 +110,17 @@ public class AverageMotionVectorGenerator {
         rightThumbPos = new Vector(0, 0, 0);
     }
 
-    ReentrantLock lock = new ReentrantLock();
-
     public void addFrame(Frame frame) {
         lock.lock();
         frames.add(frame);
         ++frames_number;
         if (frames_number >= AVERAGE_FRAME_NUMBER) {
-            resMotionVector = generate();
+            try {
+                generate();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            handsNuller();
             frames_number = 0;
             initNumbers();
             initVectors();
@@ -116,19 +130,11 @@ public class AverageMotionVectorGenerator {
         lock.unlock();
     }
 
-    public AverageMotionVectorGenerator(Presenter presenter) {
-        frames = new ArrayList<>();
-        frames_number = 0;
-        initNumbers();
-        initVectors();
-        this.presenter = presenter;
-    }
 
-
-    private MotionVector generate() {
+    private void generate() {
         //Get hands
-        if ( frames_number == 0){
-            return null;
+        if (frames_number == 0) {
+            return;
         }
         for (Frame frame : frames) {
             for (Hand hand : frame.hands()) {
@@ -152,7 +158,7 @@ public class AverageMotionVectorGenerator {
             }
         }
         averageHands();
-        return setAverageMotionVector();
+        setAverageMotionVector();
     }
 
     public MotionVector getResMotionVector() {
@@ -161,7 +167,7 @@ public class AverageMotionVectorGenerator {
 
     /*///////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-    private MotionVector setAverageMotionVector() {
+    private void setAverageMotionVector() {
         MotionVector res = new MotionVector();
 
         ru.mtl.VoidVoice.model.Hand leftHand = new ru.mtl.VoidVoice.model.Hand();
@@ -183,15 +189,29 @@ public class AverageMotionVectorGenerator {
         res.setLeftFingersList(generateLeftFingerList());
         res.setRightFingersList(generateRightFingerList());
 
-        res.setTouchList(MotionVectorTouchesConverter.createTouchList(resMotionVector));
+        try {
+            res.setTouchList(MotionVectorTouchesConverter.createTouchList(resMotionVector));
+        } catch (IllegalArgumentException e) {
+            res.setTouchList(new ArrayList<>());
+        }
 
         res.setLeftHandMotion(null);
         res.setRightHandMotion(null);
         resMotionVector = res;
-        return res;
+    }
+
+    private void addToFingerList(List<ru.mtl.VoidVoice.model.Finger> list, FingerType type, Vector dir,
+                                 Vector palmNormal, Vector pos) {
+        ru.mtl.VoidVoice.model.Finger tmp = new ru.mtl.VoidVoice.model.Finger();
+        tmp.setFingerType(type);
+        tmp.setFingerDirectionVector(new Vector3d(dir));
+        tmp.setCurvature(palmNormal, dir);
+        tmp.setFingerTipPosition(new Point3d(pos));
+        list.add(tmp);
     }
 
     private List<ru.mtl.VoidVoice.model.Finger> generateLeftFingerList() {
+/*
         List<ru.mtl.VoidVoice.model.Finger> res = new ArrayList<>();
         ru.mtl.VoidVoice.model.Finger tmp = new ru.mtl.VoidVoice.model.Finger();
 
@@ -228,13 +248,19 @@ public class AverageMotionVectorGenerator {
         tmp.setCurvature(leftPalmNormal, leftPinkyDir);
         tmp.setFingerTipPosition(new Point3d(leftPinkyPos));
         res.add(tmp);
-
+*/
+        List<ru.mtl.VoidVoice.model.Finger> res = new ArrayList<>();
+        addToFingerList(res, FingerType.Thumb, leftThumbDir, leftPalmNormal, leftThumbPos);
+        addToFingerList(res, FingerType.Index, leftIndexDir, leftPalmNormal, leftIndexPos);
+        addToFingerList(res, FingerType.Middle, leftMiddleDir, leftPalmNormal, leftMiddlePos);
+        addToFingerList(res, FingerType.Ring, leftRingDir, leftPalmNormal, leftRingPos);
+        addToFingerList(res, FingerType.Pinky, leftPinkyDir, leftPalmNormal, leftPinkyPos);
         return res;
     }
 
+
     private List<ru.mtl.VoidVoice.model.Finger> generateRightFingerList() {
-        List<ru.mtl.VoidVoice.model.Finger> res = new ArrayList<>();
-        ru.mtl.VoidVoice.model.Finger tmp = new ru.mtl.VoidVoice.model.Finger();
+       /* ru.mtl.VoidVoice.model.Finger tmp = new ru.mtl.VoidVoice.model.Finger();
 
         tmp.setFingerType(FingerType.Thumb);
         tmp.setFingerDirectionVector(new Vector3d(rightThumbDir));
@@ -268,7 +294,13 @@ public class AverageMotionVectorGenerator {
         tmp.setFingerDirectionVector(new Vector3d(rightPinkyDir));
         tmp.setCurvature(rightPalmNormal, rightPinkyDir);
         tmp.setFingerTipPosition(new Point3d(rightPinkyPos));
-        res.add(tmp);
+        res.add(tmp);*/
+        List<ru.mtl.VoidVoice.model.Finger> res = new ArrayList<>();
+        addToFingerList(res, FingerType.Thumb, rightThumbDir, rightPalmNormal, rightThumbPos);
+        addToFingerList(res, FingerType.Index, rightIndexDir, rightPalmNormal, rightIndexPos);
+        addToFingerList(res, FingerType.Middle, rightMiddleDir, rightPalmNormal, rightMiddlePos);
+        addToFingerList(res, FingerType.Ring, rightRingDir, rightPalmNormal, rightRingPos);
+        addToFingerList(res, FingerType.Pinky, rightPinkyDir, rightPalmNormal, rightPinkyPos);
 
         return res;
     }
@@ -399,5 +431,18 @@ public class AverageMotionVectorGenerator {
 
     public static int getAverageFrameNumber() {
         return AVERAGE_FRAME_NUMBER;
+    }
+
+    private void handsNuller() {
+        if (leftHandsNumber == 0) {
+            resMotionVector.setLeftHand(null);
+            resMotionVector.setLeftHandMotion(null);
+            resMotionVector.setLeftFingersList(null);
+        }
+        if (rightHandsNumber == 0) {
+            resMotionVector.setRightHand(null);
+            resMotionVector.setRightHandMotion(null);
+            resMotionVector.setRightFingersList(null);
+        }
     }
 }

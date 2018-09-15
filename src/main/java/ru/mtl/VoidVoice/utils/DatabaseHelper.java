@@ -22,7 +22,7 @@ import java.util.List;
 
 public class DatabaseHelper {
     private static String FOLDER_LOCATION =
-            "/Users/mac/projects/SignLanguageLeapMotion/EasyRealTalk/motion_treker/src/main/resources/button_result/";
+            "C:\\EasyRealTalk\\motion_treker\\src\\main\\resources\\button_result";
 
     private GestureDao gestureDao;
 

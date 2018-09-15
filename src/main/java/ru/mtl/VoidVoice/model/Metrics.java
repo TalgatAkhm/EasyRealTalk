@@ -23,9 +23,9 @@ public class Metrics {
         if (vector.getType().equals(MainVectorType.OnlyRightHand)) {
             return pseudoGetNearestVectorByEuclid(listOfVectors, vector, MainVectorType.OnlyRightHand);
         } else if (vector.getType().equals(MainVectorType.OnlyLeftHand)) {
-            return pseudoGetNearestVectorByEuclid(listOfVectors, vector, MainVectorType.OnlyRightHand);
+            return pseudoGetNearestVectorByEuclid(listOfVectors, vector, MainVectorType.OnlyLeftHand);
         } else {
-            return pseudoGetNearestVectorByEuclid(listOfVectors, vector, MainVectorType.OnlyRightHand);
+            return pseudoGetNearestVectorByEuclid(listOfVectors, vector, MainVectorType.BothHands);
         }
     }
 
@@ -35,10 +35,10 @@ public class Metrics {
         if (vector.getType().equals(MainVectorType.OnlyRightHand)) {
             return getNearestVectorListByEuclid(listOfVectors, vector, MainVectorType.OnlyRightHand);
         } else if (vector.getType().equals(MainVectorType.OnlyLeftHand)) {
-            return getNearestVectorListByEuclid(listOfVectors, vector, MainVectorType.OnlyRightHand);
+            return getNearestVectorListByEuclid(listOfVectors, vector, MainVectorType.OnlyLeftHand);
         }
 
-        return getNearestVectorListByEuclid(listOfVectors, vector, MainVectorType.OnlyRightHand);
+        return getNearestVectorListByEuclid(listOfVectors, vector, MainVectorType.BothHands);
     }
 
     private static List<Integer> getNearestVectorListByEuclid(List<MainVector> listOfVectors, MainVector vector, MainVectorType mainVectorType) {
